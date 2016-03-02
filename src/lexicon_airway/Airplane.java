@@ -95,6 +95,22 @@ public class Airplane extends STATIC
 
 //    public void updateIncome()
     //<editor-fold defaultstate="collapsed" desc="Getters & Setters">
+
+    public int getNrOfFirst()
+    {
+        return nrOfFirst;
+    }
+
+    public int getNrOfEco()
+    {
+        return nrOfEco;
+    }
+
+    public int getTotalIncome()
+    {
+        return totalIncome;
+    }
+    
     public void setMenu(ArrayList<Food> menu)
     {
         this.menu = menu;

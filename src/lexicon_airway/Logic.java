@@ -12,16 +12,32 @@ public class Logic extends STATIC
 
     }
 
+    public Logic(boolean fake)
+    {
+        ArrayList<Food> fakeFoodListFirstClass = new ArrayList<>();
+        fakeFoodListFirstClass.add(db.FoodMenu.get(0));
+
+        ArrayList<Food> fakeFoodListEcoClass = new ArrayList<>();
+        fakeFoodListEcoClass.add(db.FoodMenu.get(7));
+
+        bookTicket(db.HangerDatabase.get(0), findPassanger(0), FIRSTCLASS, fakeFoodListFirstClass);
+        bookTicket(db.HangerDatabase.get(0), findPassanger(3), FIRSTCLASS, fakeFoodListFirstClass);
+        bookTicket(db.HangerDatabase.get(1), findPassanger(1), ECONOMYCLASS, fakeFoodListEcoClass);
+        bookTicket(db.HangerDatabase.get(0), findPassanger(2), ECONOMYCLASS, fakeFoodListEcoClass);
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Passanger Functions">
     /**
-     * book a ticket for the passanger on the selected plane and of the selected rank
+     * book a ticket for the passanger on the selected plane and of the selected
+     * rank
      *
      * @param plane
      * @param passanger
      * @param rank
      * @param food
+     * @return
      */
-    public void bookTicket(Airplane plane, Passanger passanger, int rank, ArrayList<Food> food)
+    public final boolean bookTicket(Airplane plane, Passanger passanger, int rank, ArrayList<Food> food)
     {
         if (passanger.getTicket().getId() == -1 && findOpenSeat(rank) != -1)
         {
@@ -34,25 +50,31 @@ public class Logic extends STATIC
                 db.HangerDatabase.get(plane.getId()).updateIncome(ticket.getRank());
                 db.HangerDatabase.get(plane.getId()).updateIncome(passanger.getTicket().getFood());
                 db.HangerDatabase.get(plane.getId()).updateRankAvailable(rank);
-                
-                System.out.println("***************************");
-                System.out.println(passanger.getName() + " " );
-                System.out.println(rank);
-                System.out.println("-----* Plane *-----");
-                System.out.println(plane.getCallsign());
-                System.out.println("***************************");
-                
-                System.out.println("");
-                System.out.println(passanger.toString());
+                db.HangerDatabase.get(plane.getId()).addPassanger(passanger);
+
+//                System.out.println("***************************");
+//                System.out.println(passanger.getName() + " ");
+//                System.out.println(rank);
+//                System.out.println("-----* Plane *-----");
+//                System.out.println(plane.getCallsign());
+//                System.out.println("***************************");
+
+//                System.out.println("");
+//                System.out.println(passanger.toString());
+
+                return true;
             }
         } else
         {
             System.err.println("Something went wrong");
+            return false;
         }
+        return false;
     }
 
     /**
-     * book a ticket for the passanger on the first available plane of the selected Rank
+     * book a ticket for the passanger on the first available plane of the
+     * selected Rank
      *
      * @param passanger
      * @param rank
@@ -109,7 +131,7 @@ public class Logic extends STATIC
      * @param ticket
      * @return
      */
-    public Passanger findPassanger(Ticket ticket)
+    public final Passanger findPassanger(Ticket ticket)
     {
         return db.PassangerDatabase.get(ticket.getPassangerID());
     }
@@ -120,15 +142,16 @@ public class Logic extends STATIC
      * @param id
      * @return
      */
-    public Passanger findPassanger(int id)
+    public final Passanger findPassanger(int id)
     {
         return db.PassangerDatabase.get(id);
     }
 
     /**
      * Find which plane the passanger is on
+     *
      * @param passanger
-     * @return 
+     * @return
      */
     public Airplane find_Plane_based_on_Passanger(Passanger passanger)
     {
@@ -154,7 +177,7 @@ public class Logic extends STATIC
      * Create a new Passanger
      *
      * @param name
-     * @return 
+     * @return
      */
     public Passanger createPassanger(String name)
     {
@@ -181,6 +204,5 @@ public class Logic extends STATIC
         }
         return -1;
     }
-
 
 }

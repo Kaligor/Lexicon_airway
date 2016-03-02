@@ -32,6 +32,17 @@ public class Airplane extends STATIC
         id = nextID;
         nextID++;
     }
+    
+    public void addPassanger(Passanger passanger) {
+        this.passangers.add(passanger);
+    }
+    
+    public void printPassangers() {
+        passangers.stream().forEach((item) ->
+        {
+            System.out.println(item.getName());
+        });
+    }
 
     /**
      *
@@ -130,4 +141,11 @@ public class Airplane extends STATIC
     }
 //</editor-fold>
 
+    @Override
+    public String toString()
+    {
+        return callsign;
+    }
+
+    
 }

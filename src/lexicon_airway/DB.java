@@ -17,7 +17,7 @@ public class DB
         PassangerDatabase.add(new Passanger("Marcus"));
         PassangerDatabase.add(new Passanger("Lars"));
         PassangerDatabase.add(new Passanger("Fredrik"));
-        PassangerDatabase.add(new Passanger("Marcus"));
+        PassangerDatabase.add(new Passanger("Svenne"));
         PassangerDatabase.add(new Passanger("Kevin"));
         
         HangerDatabase.add(new Airplane("Alpha Air", 10, 20));

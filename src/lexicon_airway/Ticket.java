@@ -13,6 +13,7 @@ public class Ticket extends STATIC
     private int passangerID;
     private int totalCost = 0;
     private ArrayList<Food> food = new ArrayList<>();
+    private int foodTotal = 0;
     private int rank; //use Static Variables  
 
     /**
@@ -33,6 +34,7 @@ public class Ticket extends STATIC
         this.food = food;
         food.stream().forEach((item) ->
         {
+            foodTotal = foodTotal + item.getPrice();
             totalCost = totalCost + item.getPrice();
         });
         if(rank == ECONOMYCLASS) {
@@ -55,6 +57,12 @@ public class Ticket extends STATIC
     }
 
     //<editor-fold defaultstate="collapsed" desc="Getters & Setters">
+
+    public int getFoodTotal()
+    {
+        return foodTotal;
+    }
+
     public int getTotalCost()
     {
         return totalCost;

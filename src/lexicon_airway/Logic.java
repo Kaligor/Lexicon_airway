@@ -45,6 +45,7 @@ public class Logic extends STATIC
             {
                 Ticket ticket = new Ticket(plane.getId(), passanger.getId(), rank, food);
                 db.TicketDatabase.add(ticket);
+//                db.PassangerDatabase.add(passanger);
                 db.PassangerDatabase.get(passanger.getId()).setTicket(ticket);
 
                 db.HangerDatabase.get(plane.getId()).updateIncome(ticket.getRank());

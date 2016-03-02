@@ -8,6 +8,8 @@ package lexicon_airway;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -63,7 +65,7 @@ public class Main_screen extends javax.swing.JFrame
         planeList.setSelectedIndex(0);
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
-        allPassangerList.setModel(allPassangers);
+        PassangerTab_allPassangerList.setModel(allPassangers);
         allTicketList.setModel(allTickets);
 
         TabbedPane.remove(adminPlaneTab);
@@ -122,13 +124,13 @@ public class Main_screen extends javax.swing.JFrame
         planeTab_planeID_value = new javax.swing.JLabel();
         adminPassangerTab = new javax.swing.JPanel();
         allPassangerPane = new javax.swing.JScrollPane();
-        allPassangerList = new javax.swing.JList<>();
+        PassangerTab_allPassangerList = new javax.swing.JList<>();
         passangerTab_id_textLabel = new javax.swing.JLabel();
         passangerTab_id_value = new javax.swing.JLabel();
         passangerTab_name_textLabel = new javax.swing.JLabel();
         passangerTab_name_value = new javax.swing.JLabel();
-        passangerTab_ticketBoolean_textLabel = new javax.swing.JLabel();
-        passangerTab_ticketBoolean_value = new javax.swing.JLabel();
+        passangerTab_ticketRank_textLabel = new javax.swing.JLabel();
+        passangerTab_ticketRank_value = new javax.swing.JLabel();
         passangerTab_planeCallsign_textLabel = new javax.swing.JLabel();
         passangerTab_planeCallsign_value = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -165,6 +167,14 @@ public class Main_screen extends javax.swing.JFrame
 
         planeListLockButton.setText("Lock");
         planeListLockButton.setEnabled(false);
+
+        TabbedPane.addChangeListener(new javax.swing.event.ChangeListener()
+        {
+            public void stateChanged(javax.swing.event.ChangeEvent evt)
+            {
+                TabbedPaneStateChanged(evt);
+            }
+        });
 
         welcomeTab.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -345,7 +355,7 @@ public class Main_screen extends javax.swing.JFrame
             }
         });
 
-        passangerInPlaneList.setBackground(new java.awt.Color(153, 153, 153));
+        passangerInPlaneList.setBackground(new java.awt.Color(204, 204, 204));
         passangerInPlaneList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         passangerInPlaneList.setCellRenderer(new passangerCellRenderer());
         passangerInPlanePane.setViewportView(passangerInPlaneList);
@@ -427,16 +437,17 @@ public class Main_screen extends javax.swing.JFrame
 
         adminPassangerTab.setBackground(new java.awt.Color(255, 255, 255));
 
-        allPassangerList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        allPassangerList.setCellRenderer(new basicCellRenderer());
-        allPassangerList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
+        PassangerTab_allPassangerList.setBackground(new java.awt.Color(204, 204, 204));
+        PassangerTab_allPassangerList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        PassangerTab_allPassangerList.setCellRenderer(new basicCellRenderer());
+        PassangerTab_allPassangerList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
         {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt)
             {
-                allPassangerListValueChanged(evt);
+                PassangerTab_allPassangerListValueChanged(evt);
             }
         });
-        allPassangerPane.setViewportView(allPassangerList);
+        allPassangerPane.setViewportView(PassangerTab_allPassangerList);
 
         passangerTab_id_textLabel.setText("Id:");
 
@@ -446,15 +457,17 @@ public class Main_screen extends javax.swing.JFrame
 
         passangerTab_name_value.setText(" ");
 
-        passangerTab_ticketBoolean_textLabel.setText("Ticket:");
+        passangerTab_ticketRank_textLabel.setText("Ticket:");
 
-        passangerTab_ticketBoolean_value.setText(" ");
+        passangerTab_ticketRank_value.setText(" ");
 
         passangerTab_planeCallsign_textLabel.setText("Plane:");
 
         passangerTab_planeCallsign_value.setText(" ");
 
+        passangerTab_food_list.setBackground(new java.awt.Color(204, 204, 204));
         passangerTab_food_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        passangerTab_food_list.setCellRenderer(new basicCellRenderer());
         passangerTab_food_list.setEnabled(false);
         jScrollPane1.setViewportView(passangerTab_food_list);
 
@@ -477,25 +490,24 @@ public class Main_screen extends javax.swing.JFrame
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(passangerTab_name_textLabel)
                             .addComponent(passangerTab_id_textLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(7, 7, 7)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passangerTab_id_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(passangerTab_id_value, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                             .addComponent(passangerTab_name_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
-                        .addComponent(passangerTab_ticketBoolean_textLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(passangerTab_ticketBoolean_value, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(adminPassangerTabLayout.createSequentialGroup()
                         .addComponent(passangerTab_totalValue_textLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(passangerTab_totalValue_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(adminPassangerTabLayout.createSequentialGroup()
-                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passangerTab_planeCallsign_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(passangerTab_food_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(passangerTab_planeCallsign_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(passangerTab_food_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(passangerTab_ticketRank_textLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passangerTab_ticketRank_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(passangerTab_planeCallsign_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(passangerTab_food_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -517,8 +529,8 @@ public class Main_screen extends javax.swing.JFrame
                             .addComponent(passangerTab_name_value))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(passangerTab_ticketBoolean_textLabel)
-                            .addComponent(passangerTab_ticketBoolean_value))
+                            .addComponent(passangerTab_ticketRank_textLabel)
+                            .addComponent(passangerTab_ticketRank_value))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(passangerTab_planeCallsign_textLabel)
@@ -738,7 +750,6 @@ public class Main_screen extends javax.swing.JFrame
             rank = FIRSTCLASS;
         }
 
-        logic.bookTicket(plane, pass, rank, food);
         if (logic.bookTicket(plane, pass, rank, food))
         {
             BookingStatusLabel.setText("Welcome Aboard " + plane.getCallsign());
@@ -758,17 +769,66 @@ public class Main_screen extends javax.swing.JFrame
                 {
                     planePassangerList.addElement(item);
         });
-        
+
         planeTab_avaEco_value.setText(plane.getAvEco() + " / " + plane.getNrOfEco());
         planeTab_avaFirst_value.setText(plane.getAvFirst() + " / " + plane.getNrOfFirst());
         planeTab_planeID_value.setText("" + plane.getId());
         planeTab_totalValue_value.setText("" + plane.getTotalIncome() + " kr");
     }//GEN-LAST:event_planeComboBoxItemStateChanged
 
-    private void allPassangerListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_allPassangerListValueChanged
-    {//GEN-HEADEREND:event_allPassangerListValueChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_allPassangerListValueChanged
+    private void PassangerTab_allPassangerListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_PassangerTab_allPassangerListValueChanged
+    {//GEN-HEADEREND:event_PassangerTab_allPassangerListValueChanged
+        Passanger pass = PassangerTab_allPassangerList.getSelectedValue();
+        passangerTab_id_value.setText("" + pass.getId());
+        passangerTab_name_value.setText(pass.getName());
+
+        if (pass.getTicket().getId() != -1)
+        {
+            passangerTab_planeCallsign_value.setText("" + logic.find_Plane_based_on_Passanger(pass).getCallsign());
+            passangerTab_totalValue_value.setText("" + pass.getTicket().getTotalCost());
+            passangerTab_food_value.setText("" + pass.getTicket().getFoodTotal());
+            DefaultListModel<Food> tempList = new DefaultListModel<>();
+            pass.getTicket().getFood().stream().forEach((item)
+                    -> 
+                    {
+                        tempList.addElement(item);
+            });
+            passangerTab_food_list.setModel(tempList);
+            if (pass.getTicket().getRank() == FIRSTCLASS)
+            {
+                passangerTab_ticketRank_value.setText("First Class");
+            } else if (pass.getTicket().getRank() == ECONOMYCLASS)
+            {
+                passangerTab_ticketRank_value.setText("Eco Class");
+            }
+        } else
+        {
+            passangerTab_ticketRank_value.setText("No Ticket");
+            passangerTab_planeCallsign_value.setText("No Plane");
+            passangerTab_totalValue_value.setText("0");
+
+        }
+    }//GEN-LAST:event_PassangerTab_allPassangerListValueChanged
+
+    private void TabbedPaneStateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_TabbedPaneStateChanged
+    {//GEN-HEADEREND:event_TabbedPaneStateChanged
+        if (TabbedPane.getSelectedComponent().equals(adminPassangerTab))
+        {
+            allPassangers.clear();
+            logic.db.PassangerDatabase.stream().forEach((item)
+                    -> 
+                    {
+                        allPassangers.addElement(item);
+            });
+            try
+            {
+                Thread.sleep(100);
+            } catch (InterruptedException ex)
+            {
+                Logger.getLogger(Main_screen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_TabbedPaneStateChanged
 
     //<editor-fold defaultstate="collapsed" desc="Cell Renderers">
     class planeCellRenderer extends JLabel implements ListCellRenderer
@@ -830,21 +890,53 @@ public class Main_screen extends javax.swing.JFrame
     {
 
         private final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+        private final Color FIRST_CLASS = new Color(250, 250, 210);
 
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
         {
+
             if (value instanceof Airplane)
             {
                 Airplane entry = (Airplane) value;
                 setText(" " + entry.getCallsign());
 
-            } else if (value instanceof Passanger) {
+            } else if (value instanceof Passanger)
+            {
                 Passanger entry = (Passanger) value;
                 setText(" " + entry.getId() + " - " + entry.getName());
-            } else if (value instanceof Ticket) {
+                if (!isSelected)
+                {
+                    if (entry.getTicket().getRank() == FIRSTCLASS)
+                    {
+                        setForeground(FIRST_CLASS);
+                    } else
+                    {
+                        setForeground(Color.black);
+                    }
+                }
+            } else if (value instanceof Ticket)
+            {
                 Ticket entry = (Ticket) value;
                 setText(" PasID: " + entry.getPassangerID() + " PlaID: " + entry.getAirplaneID() + " Value: " + entry.getTotalCost());
+                if (!isSelected)
+                {
+                    setForeground(Color.black);
+                }
+            } else if (value instanceof Food)
+            {
+                Food entry = (Food) value;
+                setText(" " + entry.getName());
+                if (!isSelected)
+                {
+                    if (entry.getIsDrink())
+                    {
+                        setForeground(Color.blue);
+                    } else
+                    {
+                        setForeground(Color.green);
+                    }
+                }
             }
             setIcon(null);
 
@@ -852,11 +944,13 @@ public class Main_screen extends javax.swing.JFrame
             {
 //                setBackground(Color.GRAY);
                 setForeground(HIGHLIGHT_COLOR);
-            } else
-            {
-//                setBackground(Color.BLACK);
-                setForeground(Color.BLACK);
             }
+//            else
+//            {
+//                setBackground(Color.BLACK);
+//                setForeground(Color.BLACK);
+//                
+//            }
             return this;
         }
     }
@@ -1014,13 +1108,13 @@ public class Main_screen extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel BookingStatusLabel;
     private javax.swing.JLabel ClassLabel;
+    private javax.swing.JList<Passanger> PassangerTab_allPassangerList;
     private javax.swing.JLabel PlaneTab_avaFirst_textLabel;
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JPanel adminOverviewTab;
     private javax.swing.JPanel adminPassangerTab;
     private javax.swing.JPanel adminPlaneTab;
     private javax.swing.JPanel adminTicketTab;
-    private javax.swing.JList<Passanger> allPassangerList;
     private javax.swing.JScrollPane allPassangerPane;
     private javax.swing.JList<Ticket> allTicketList;
     private javax.swing.JScrollPane allTicketPane;
@@ -1049,8 +1143,8 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JLabel passangerTab_name_value;
     private javax.swing.JLabel passangerTab_planeCallsign_textLabel;
     private javax.swing.JLabel passangerTab_planeCallsign_value;
-    private javax.swing.JLabel passangerTab_ticketBoolean_textLabel;
-    private javax.swing.JLabel passangerTab_ticketBoolean_value;
+    private javax.swing.JLabel passangerTab_ticketRank_textLabel;
+    private javax.swing.JLabel passangerTab_ticketRank_value;
     private javax.swing.JLabel passangerTab_totalValue_textLabel;
     private javax.swing.JLabel passangerTab_totalValue_value;
     private javax.swing.JComboBox<Airplane> planeComboBox;

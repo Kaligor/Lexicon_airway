@@ -8,10 +8,13 @@ package lexicon_airway;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.ArrayList;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 
 /**
  *
@@ -53,9 +56,13 @@ public class Main_screen extends javax.swing.JFrame
         foodList.setModel(foodListArrayEcoClass);
         foodList.setVisible(false);
         drinkList.setVisible(false);
+
+        //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
         AdminButton.setVisible(false);
         AdminPlaneTab.setVisible(false);
         TabbedPane.remove(2);
+
+        //</editor-fold>
     }
 
     /**
@@ -119,6 +126,7 @@ public class Main_screen extends javax.swing.JFrame
         });
 
         planeListLockButton.setText("Lock");
+        planeListLockButton.setEnabled(false);
 
         AdminButton.setText("Admin");
         AdminButton.addActionListener(new java.awt.event.ActionListener()
@@ -298,6 +306,8 @@ public class Main_screen extends javax.swing.JFrame
 
         TabbedPane.addTab("New", newPassangerPanel);
 
+        planeComboBox.setRenderer(new basicCellRenderer());
+
         passangerInPlaneList.setModel(new javax.swing.AbstractListModel<String>()
         {
             String[] strings = { " " };
@@ -379,7 +389,7 @@ public class Main_screen extends javax.swing.JFrame
 
     private void foodListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_foodListValueChanged
     {//GEN-HEADEREND:event_foodListValueChanged
-         if (foodList.getSelectedIndex() >= 0)
+        if (foodList.getSelectedIndex() >= 0)
         {
             int tempPrice = 0;
             for (int i = 0; i < foodList.getSelectedIndices().length; i++)
@@ -469,16 +479,17 @@ public class Main_screen extends javax.swing.JFrame
     private void bookButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_bookButtonActionPerformed
     {//GEN-HEADEREND:event_bookButtonActionPerformed
         Passanger pass = logic.createPassanger(yourNameInput.getText());
-        Airplane plane = planeListArray.getElementAt(planeList.getSelectedIndex());  
+        Airplane plane = planeListArray.getElementAt(planeList.getSelectedIndex());
         ArrayList<Food> food = new ArrayList<>();
         food.addAll(drinkList.getSelectedValuesList());
         food.addAll(foodList.getSelectedValuesList());
-        
+
         int rank = ECONOMYCLASS;
-        if(classCheck.isSelected()) {
+        if (classCheck.isSelected())
+        {
             rank = FIRSTCLASS;
         }
-        
+
         logic.bookTicket(plane, pass, rank, food);
         planeList.clearSelection();
     }//GEN-LAST:event_bookButtonActionPerformed
@@ -489,6 +500,7 @@ public class Main_screen extends javax.swing.JFrame
         TabbedPane.setTitleAt(2, "Planes");
     }//GEN-LAST:event_AdminButtonActionPerformed
 
+    //<editor-fold defaultstate="collapsed" desc="Cell Renderers">
     class planeCellRenderer extends JLabel implements ListCellRenderer
     {
 
@@ -541,6 +553,34 @@ public class Main_screen extends javax.swing.JFrame
 
     }
 
+    /**
+     * EDIT THIS ONE IF YOU USE IT FOR OTHER THAN PLANE
+     */
+    class basicCellRenderer extends JLabel implements ListCellRenderer
+    {
+        private final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+        {
+            Airplane entry = (Airplane) value;
+            setText(" " + entry.getCallsign());
+            setIcon(null);
+
+            if (isSelected)
+            {
+//                setBackground(Color.GRAY);
+                setForeground(HIGHLIGHT_COLOR);
+            } else
+            {
+//                setBackground(Color.BLACK);
+                setForeground(Color.BLACK);
+            }
+            return this;
+        }
+    }
+//</editor-fold>
+
     public DefaultListModel<Food> rankListReturner(boolean isDrink)
     {
         if (isDrink == false)
@@ -575,6 +615,7 @@ public class Main_screen extends javax.swing.JFrame
                 -> 
                 {
                     planeListArray.addElement(item);
+                    planeComboBox.addItem(item);
         });
 
         logic.db.FoodMenu.stream().forEach((item)
@@ -667,7 +708,7 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JList<String> passangerInPlaneList;
     private javax.swing.JScrollPane passangerInPlanePane;
     private javax.swing.JLabel passangerLabel;
-    private javax.swing.JComboBox<String> planeComboBox;
+    private javax.swing.JComboBox<Airplane> planeComboBox;
     private javax.swing.JList<Airplane> planeList;
     private javax.swing.JButton planeListLockButton;
     private javax.swing.JScrollPane planeScrollPane;

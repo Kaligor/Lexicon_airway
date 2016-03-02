@@ -92,6 +92,9 @@
               <Connection code="new planeCellRenderer()" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="planeListKeyTyped"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Airplane&gt;"/>
           </AuxValues>
@@ -99,6 +102,9 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JTextField" name="searchButton">
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="searchButtonFocusGained"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="planeListLockButton">
       <Properties>

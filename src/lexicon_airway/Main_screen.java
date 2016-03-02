@@ -25,6 +25,8 @@ public class Main_screen extends javax.swing.JFrame
 
     static final int FIRSTCLASSPRICE = 20000;
     static final int ECONOMYCLASSPRICE = 5000;
+    
+    String admin = "";
 
     Logic logic = new Logic();
     int totalPris = 0;
@@ -51,6 +53,7 @@ public class Main_screen extends javax.swing.JFrame
         foodList.setModel(foodListArrayEcoClass);
         foodList.setVisible(false);
         drinkList.setVisible(false);
+        Passanger_Admin_Toggle.setVisible(false);
     }
 
     /**
@@ -91,7 +94,22 @@ public class Main_screen extends javax.swing.JFrame
 
         planeList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         planeList.setCellRenderer(new planeCellRenderer());
+        planeList.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyTyped(java.awt.event.KeyEvent evt)
+            {
+                planeListKeyTyped(evt);
+            }
+        });
         planeScrollPane.setViewportView(planeList);
+
+        searchButton.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
+                searchButtonFocusGained(evt);
+            }
+        });
 
         planeListLockButton.setText("Lock");
 
@@ -402,6 +420,20 @@ public class Main_screen extends javax.swing.JFrame
 //        planeListArray.get(planeList.getSelectedIndex()).updateRankAvailable(rank);
         
     }//GEN-LAST:event_bookButtonActionPerformed
+
+    private void planeListKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_planeListKeyTyped
+    {//GEN-HEADEREND:event_planeListKeyTyped
+        System.out.println(evt.getKeyChar());
+        admin = admin + evt.getKeyChar();
+        if(admin.equals("admin")) {
+            Passanger_Admin_Toggle.setVisible(true);
+        }
+    }//GEN-LAST:event_planeListKeyTyped
+
+    private void searchButtonFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_searchButtonFocusGained
+    {//GEN-HEADEREND:event_searchButtonFocusGained
+        admin = "";
+    }//GEN-LAST:event_searchButtonFocusGained
 
     class planeCellRenderer extends JLabel implements ListCellRenderer
     {

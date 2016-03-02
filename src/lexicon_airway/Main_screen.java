@@ -41,7 +41,11 @@ public class Main_screen extends javax.swing.JFrame
     DefaultListModel<Food> drinkListArrayFirstClass = new DefaultListModel();
     DefaultListModel<Food> drinkListArrayEcoClass = new DefaultListModel();
 
-    DefaultListModel<Passanger> PassangerList = new DefaultListModel();
+    DefaultListModel<Passanger> planePassangerList = new DefaultListModel();
+
+    DefaultListModel<Passanger> allPassangers = new DefaultListModel<>();
+
+    DefaultListModel<Ticket> allTickets = new DefaultListModel<>();
 
     /**
      * Creates new form Main_screen
@@ -53,15 +57,19 @@ public class Main_screen extends javax.swing.JFrame
         planeList.setModel(planeListArray);
         drinkList.setModel(drinkListArrayEcoClass);
         foodList.setModel(foodListArrayEcoClass);
-        passangerInPlaneList.setModel(PassangerList);
+        passangerInPlaneList.setModel(planePassangerList);
         foodList.setVisible(false);
         drinkList.setVisible(false);
         planeList.setSelectedIndex(0);
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
-        AdminButton.setVisible(false);
-        AdminPlaneTab.setVisible(false);
-        TabbedPane.remove(2);
+        allPassangerList.setModel(allPassangers);
+        allTicketList.setModel(allTickets);
+
+        TabbedPane.remove(adminPlaneTab);
+        TabbedPane.remove(adminOverviewTab);
+        TabbedPane.remove(adminPassangerTab);
+        TabbedPane.remove(adminTicketTab);
 
         //</editor-fold>
     }
@@ -81,9 +89,8 @@ public class Main_screen extends javax.swing.JFrame
         searchButton = new javax.swing.JTextField();
         planeListLockButton = new javax.swing.JButton();
         TabbedPane = new javax.swing.JTabbedPane();
-        loginPassanger = new javax.swing.JPanel();
-        AdminButton = new javax.swing.JButton();
-        newPassangerPanel = new javax.swing.JPanel();
+        welcomeTab = new javax.swing.JPanel();
+        newPassangerTab = new javax.swing.JPanel();
         ClassLabel = new javax.swing.JLabel();
         prisListLabel = new javax.swing.JLabel();
         flightOptionsLabel = new javax.swing.JLabel();
@@ -101,10 +108,39 @@ public class Main_screen extends javax.swing.JFrame
         yourNameInput = new javax.swing.JTextField();
         bookButton = new javax.swing.JButton();
         BookingStatusLabel = new javax.swing.JLabel();
-        AdminPlaneTab = new javax.swing.JPanel();
+        adminPlaneTab = new javax.swing.JPanel();
         planeComboBox = new javax.swing.JComboBox<>();
         passangerInPlanePane = new javax.swing.JScrollPane();
         passangerInPlaneList = new javax.swing.JList<>();
+        planeTab_TotalValue_textLabel = new javax.swing.JLabel();
+        planeTab_totalValue_value = new javax.swing.JLabel();
+        PlaneTab_avaFirst_textLabel = new javax.swing.JLabel();
+        planeTab_avaFirst_value = new javax.swing.JLabel();
+        planeTab_avaEco_textLabel = new javax.swing.JLabel();
+        planeTab_avaEco_value = new javax.swing.JLabel();
+        planeTab_planeId_textLabel = new javax.swing.JLabel();
+        planeTab_planeID_value = new javax.swing.JLabel();
+        adminPassangerTab = new javax.swing.JPanel();
+        allPassangerPane = new javax.swing.JScrollPane();
+        allPassangerList = new javax.swing.JList<>();
+        passangerTab_id_textLabel = new javax.swing.JLabel();
+        passangerTab_id_value = new javax.swing.JLabel();
+        passangerTab_name_textLabel = new javax.swing.JLabel();
+        passangerTab_name_value = new javax.swing.JLabel();
+        passangerTab_ticketBoolean_textLabel = new javax.swing.JLabel();
+        passangerTab_ticketBoolean_value = new javax.swing.JLabel();
+        passangerTab_planeCallsign_textLabel = new javax.swing.JLabel();
+        passangerTab_planeCallsign_value = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        passangerTab_food_list = new javax.swing.JList<>();
+        passangerTab_food_textLabel = new javax.swing.JLabel();
+        passangerTab_food_value = new javax.swing.JLabel();
+        passangerTab_totalValue_textLabel = new javax.swing.JLabel();
+        passangerTab_totalValue_value = new javax.swing.JLabel();
+        adminTicketTab = new javax.swing.JPanel();
+        allTicketPane = new javax.swing.JScrollPane();
+        allTicketList = new javax.swing.JList<>();
+        adminOverviewTab = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -130,33 +166,22 @@ public class Main_screen extends javax.swing.JFrame
         planeListLockButton.setText("Lock");
         planeListLockButton.setEnabled(false);
 
-        AdminButton.setText("Admin");
-        AdminButton.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                AdminButtonActionPerformed(evt);
-            }
-        });
+        welcomeTab.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout loginPassangerLayout = new javax.swing.GroupLayout(loginPassanger);
-        loginPassanger.setLayout(loginPassangerLayout);
-        loginPassangerLayout.setHorizontalGroup(
-            loginPassangerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPassangerLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
-                .addComponent(AdminButton)
-                .addContainerGap())
+        javax.swing.GroupLayout welcomeTabLayout = new javax.swing.GroupLayout(welcomeTab);
+        welcomeTab.setLayout(welcomeTabLayout);
+        welcomeTabLayout.setHorizontalGroup(
+            welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 288, Short.MAX_VALUE)
         );
-        loginPassangerLayout.setVerticalGroup(
-            loginPassangerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, loginPassangerLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AdminButton)
-                .addContainerGap())
+        welcomeTabLayout.setVerticalGroup(
+            welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
         );
 
-        TabbedPane.addTab("Login", loginPassanger);
+        TabbedPane.addTab("Welcome", welcomeTab);
+
+        newPassangerTab.setBackground(new java.awt.Color(255, 255, 255));
 
         ClassLabel.setText("Class");
 
@@ -233,67 +258,64 @@ public class Main_screen extends javax.swing.JFrame
             }
         });
 
-        javax.swing.GroupLayout newPassangerPanelLayout = new javax.swing.GroupLayout(newPassangerPanel);
-        newPassangerPanel.setLayout(newPassangerPanelLayout);
-        newPassangerPanelLayout.setHorizontalGroup(
-            newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(newPassangerPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout newPassangerTabLayout = new javax.swing.GroupLayout(newPassangerTab);
+        newPassangerTab.setLayout(newPassangerTabLayout);
+        newPassangerTabLayout.setHorizontalGroup(
+            newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(newPassangerTabLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(newPassangerPanelLayout.createSequentialGroup()
-                        .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newPassangerTabLayout.createSequentialGroup()
+                        .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(flightOptionsLabel)
-                            .addGroup(newPassangerPanelLayout.createSequentialGroup()
-                                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(newPassangerTabLayout.createSequentialGroup()
+                                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(foodCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(drinkCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(newPassangerPanelLayout.createSequentialGroup()
+                            .addGroup(newPassangerTabLayout.createSequentialGroup()
                                 .addComponent(ClassLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(classCheck)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
-                        .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(prisTotalLabel)
-                            .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(prisListLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(classPrisLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
                                 .addComponent(foodTotalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(24, 24, 24))
-                    .addGroup(newPassangerPanelLayout.createSequentialGroup()
-                        .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(newPassangerPanelLayout.createSequentialGroup()
-                                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(passangerLabel)
-                                    .addComponent(yourNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 88, Short.MAX_VALUE))
+                    .addGroup(newPassangerTabLayout.createSequentialGroup()
+                        .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passangerLabel)
+                            .addComponent(yourNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(BookingStatusLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(bookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
-        newPassangerPanelLayout.setVerticalGroup(
-            newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newPassangerPanelLayout.createSequentialGroup()
+        newPassangerTabLayout.setVerticalGroup(
+            newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, newPassangerTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(prisListLabel)
                     .addComponent(flightOptionsLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(ClassLabel)
                     .addComponent(classPrisLabel)
                     .addComponent(classCheck))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(foodCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(drinkCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(3, 3, 3)
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(foodTotalLabel))
@@ -304,13 +326,15 @@ public class Main_screen extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(prisTotalLabel)
                 .addGap(18, 18, 18)
-                .addGroup(newPassangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bookButton)
                     .addComponent(BookingStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14))
         );
 
-        TabbedPane.addTab("New", newPassangerPanel);
+        TabbedPane.addTab("New", newPassangerTab);
+
+        adminPlaneTab.setBackground(new java.awt.Color(255, 255, 255));
 
         planeComboBox.setRenderer(new basicCellRenderer());
         planeComboBox.addItemListener(new java.awt.event.ItemListener()
@@ -326,31 +350,234 @@ public class Main_screen extends javax.swing.JFrame
         passangerInPlaneList.setCellRenderer(new passangerCellRenderer());
         passangerInPlanePane.setViewportView(passangerInPlaneList);
 
-        javax.swing.GroupLayout AdminPlaneTabLayout = new javax.swing.GroupLayout(AdminPlaneTab);
-        AdminPlaneTab.setLayout(AdminPlaneTabLayout);
-        AdminPlaneTabLayout.setHorizontalGroup(
-            AdminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AdminPlaneTabLayout.createSequentialGroup()
+        planeTab_TotalValue_textLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_TotalValue_textLabel.setText("Total Value");
+
+        planeTab_totalValue_value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_totalValue_value.setText("0");
+
+        PlaneTab_avaFirst_textLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        PlaneTab_avaFirst_textLabel.setText("First Class Seats");
+
+        planeTab_avaFirst_value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_avaFirst_value.setText("0");
+
+        planeTab_avaEco_textLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_avaEco_textLabel.setText("Eco Class Seats");
+
+        planeTab_avaEco_value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_avaEco_value.setText("0");
+
+        planeTab_planeId_textLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_planeId_textLabel.setText("Plane ID");
+
+        planeTab_planeID_value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        planeTab_planeID_value.setText(" ");
+
+        javax.swing.GroupLayout adminPlaneTabLayout = new javax.swing.GroupLayout(adminPlaneTab);
+        adminPlaneTab.setLayout(adminPlaneTabLayout);
+        adminPlaneTabLayout.setHorizontalGroup(
+            adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminPlaneTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(planeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(planeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(planeTab_avaFirst_value, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_totalValue_value, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_TotalValue_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PlaneTab_avaFirst_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(planeTab_planeId_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_planeID_value, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_avaEco_value, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_avaEco_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        AdminPlaneTabLayout.setVerticalGroup(
-            AdminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(AdminPlaneTabLayout.createSequentialGroup()
+        adminPlaneTabLayout.setVerticalGroup(
+            adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminPlaneTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(AdminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(AdminPlaneTabLayout.createSequentialGroup()
-                        .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(AdminPlaneTabLayout.createSequentialGroup()
+                .addGroup(adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addGroup(adminPlaneTabLayout.createSequentialGroup()
                         .addComponent(planeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_TotalValue_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_totalValue_value)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(PlaneTab_avaFirst_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_avaFirst_value)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_avaEco_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_avaEco_value)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(planeTab_planeId_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeTab_planeID_value)))
+                .addContainerGap())
         );
 
-        TabbedPane.addTab("Planes", AdminPlaneTab);
+        TabbedPane.addTab("Planes", adminPlaneTab);
+
+        adminPassangerTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        allPassangerList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        allPassangerList.setCellRenderer(new basicCellRenderer());
+        allPassangerList.addListSelectionListener(new javax.swing.event.ListSelectionListener()
+        {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt)
+            {
+                allPassangerListValueChanged(evt);
+            }
+        });
+        allPassangerPane.setViewportView(allPassangerList);
+
+        passangerTab_id_textLabel.setText("Id:");
+
+        passangerTab_id_value.setText(" ");
+
+        passangerTab_name_textLabel.setText("Name:");
+
+        passangerTab_name_value.setText(" ");
+
+        passangerTab_ticketBoolean_textLabel.setText("Ticket:");
+
+        passangerTab_ticketBoolean_value.setText(" ");
+
+        passangerTab_planeCallsign_textLabel.setText("Plane:");
+
+        passangerTab_planeCallsign_value.setText(" ");
+
+        passangerTab_food_list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        passangerTab_food_list.setEnabled(false);
+        jScrollPane1.setViewportView(passangerTab_food_list);
+
+        passangerTab_food_textLabel.setText("Food:");
+
+        passangerTab_food_value.setText(" ");
+
+        passangerTab_totalValue_textLabel.setText("Total:");
+
+        passangerTab_totalValue_value.setText(" ");
+
+        javax.swing.GroupLayout adminPassangerTabLayout = new javax.swing.GroupLayout(adminPassangerTab);
+        adminPassangerTab.setLayout(adminPassangerTabLayout);
+        adminPassangerTabLayout.setHorizontalGroup(
+            adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminPassangerTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passangerTab_name_textLabel)
+                            .addComponent(passangerTab_id_textLabel))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passangerTab_id_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(passangerTab_name_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                        .addComponent(passangerTab_ticketBoolean_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passangerTab_ticketBoolean_value, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                        .addComponent(passangerTab_totalValue_textLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(passangerTab_totalValue_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(passangerTab_planeCallsign_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(passangerTab_food_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passangerTab_planeCallsign_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(passangerTab_food_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(allPassangerPane, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        adminPassangerTabLayout.setVerticalGroup(
+            adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(adminPassangerTabLayout.createSequentialGroup()
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_id_textLabel)
+                            .addComponent(passangerTab_id_value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_name_textLabel)
+                            .addComponent(passangerTab_name_value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_ticketBoolean_textLabel)
+                            .addComponent(passangerTab_ticketBoolean_value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_planeCallsign_textLabel)
+                            .addComponent(passangerTab_planeCallsign_value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_food_textLabel)
+                            .addComponent(passangerTab_food_value))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(passangerTab_totalValue_textLabel)
+                            .addComponent(passangerTab_totalValue_value)))
+                    .addComponent(allPassangerPane))
+                .addContainerGap())
+        );
+
+        TabbedPane.addTab("Passangers", adminPassangerTab);
+
+        adminTicketTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        allTicketList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        allTicketList.setCellRenderer(new basicCellRenderer());
+        allTicketPane.setViewportView(allTicketList);
+
+        javax.swing.GroupLayout adminTicketTabLayout = new javax.swing.GroupLayout(adminTicketTab);
+        adminTicketTab.setLayout(adminTicketTabLayout);
+        adminTicketTabLayout.setHorizontalGroup(
+            adminTicketTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminTicketTabLayout.createSequentialGroup()
+                .addContainerGap(96, Short.MAX_VALUE)
+                .addComponent(allTicketPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        adminTicketTabLayout.setVerticalGroup(
+            adminTicketTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminTicketTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(allTicketPane, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        TabbedPane.addTab("Tickets", adminTicketTab);
+
+        adminOverviewTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout adminOverviewTabLayout = new javax.swing.GroupLayout(adminOverviewTab);
+        adminOverviewTab.setLayout(adminOverviewTabLayout);
+        adminOverviewTabLayout.setHorizontalGroup(
+            adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 288, Short.MAX_VALUE)
+        );
+        adminOverviewTabLayout.setVerticalGroup(
+            adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+
+        TabbedPane.addTab("Overview", adminOverviewTab);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -360,24 +587,32 @@ public class Main_screen extends javax.swing.JFrame
                 .addComponent(TabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(planeListLockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(TabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(planeListLockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(TabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(searchButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(planeListLockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 2, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
 
         pack();
@@ -388,7 +623,10 @@ public class Main_screen extends javax.swing.JFrame
         admin = admin + evt.getKeyChar();
         if (admin.equals("admin"))
         {
-            AdminButton.setVisible(true);
+            TabbedPane.add("Planes", adminPlaneTab);
+            TabbedPane.add("Passanger", adminPassangerTab);
+            TabbedPane.add("Tickets", adminTicketTab);
+            TabbedPane.add("Overview", adminOverviewTab);
         }
     }//GEN-LAST:event_planeListKeyTyped
 
@@ -511,22 +749,26 @@ public class Main_screen extends javax.swing.JFrame
         planeList.clearSelection();
     }//GEN-LAST:event_bookButtonActionPerformed
 
-    private void AdminButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_AdminButtonActionPerformed
-    {//GEN-HEADEREND:event_AdminButtonActionPerformed
-        TabbedPane.add(AdminPlaneTab);
-        TabbedPane.setTitleAt(2, "Planes");
-    }//GEN-LAST:event_AdminButtonActionPerformed
-
     private void planeComboBoxItemStateChanged(java.awt.event.ItemEvent evt)//GEN-FIRST:event_planeComboBoxItemStateChanged
     {//GEN-HEADEREND:event_planeComboBoxItemStateChanged
         Airplane plane = (Airplane) planeComboBox.getSelectedItem();
-        PassangerList.clear();
+        planePassangerList.clear();
         plane.getPassangers().stream().forEach((item)
                 -> 
                 {
-                    PassangerList.addElement(item);
+                    planePassangerList.addElement(item);
         });
+        
+        planeTab_avaEco_value.setText(plane.getAvEco() + " / " + plane.getNrOfEco());
+        planeTab_avaFirst_value.setText(plane.getAvFirst() + " / " + plane.getNrOfFirst());
+        planeTab_planeID_value.setText("" + plane.getId());
+        planeTab_totalValue_value.setText("" + plane.getTotalIncome() + " kr");
     }//GEN-LAST:event_planeComboBoxItemStateChanged
+
+    private void allPassangerListValueChanged(javax.swing.event.ListSelectionEvent evt)//GEN-FIRST:event_allPassangerListValueChanged
+    {//GEN-HEADEREND:event_allPassangerListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_allPassangerListValueChanged
 
     //<editor-fold defaultstate="collapsed" desc="Cell Renderers">
     class planeCellRenderer extends JLabel implements ListCellRenderer
@@ -592,8 +834,18 @@ public class Main_screen extends javax.swing.JFrame
         @Override
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
         {
-            Airplane entry = (Airplane) value;
-            setText(" " + entry.getCallsign());
+            if (value instanceof Airplane)
+            {
+                Airplane entry = (Airplane) value;
+                setText(" " + entry.getCallsign());
+
+            } else if (value instanceof Passanger) {
+                Passanger entry = (Passanger) value;
+                setText(" " + entry.getId() + " - " + entry.getName());
+            } else if (value instanceof Ticket) {
+                Ticket entry = (Ticket) value;
+                setText(" PasID: " + entry.getPassangerID() + " PlaID: " + entry.getAirplaneID() + " Value: " + entry.getTotalCost());
+            }
             setIcon(null);
 
             if (isSelected)
@@ -699,6 +951,18 @@ public class Main_screen extends javax.swing.JFrame
                     }
         });
 
+        logic.db.PassangerDatabase.stream().forEach((item)
+                -> 
+                {
+                    allPassangers.addElement(item);
+        });
+
+        logic.db.TicketDatabase.stream().forEach((item)
+                -> 
+                {
+                    allTickets.addElement(item);
+        });
+
     }
 
     /**
@@ -748,11 +1012,18 @@ public class Main_screen extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton AdminButton;
-    private javax.swing.JPanel AdminPlaneTab;
     private javax.swing.JLabel BookingStatusLabel;
     private javax.swing.JLabel ClassLabel;
+    private javax.swing.JLabel PlaneTab_avaFirst_textLabel;
     private javax.swing.JTabbedPane TabbedPane;
+    private javax.swing.JPanel adminOverviewTab;
+    private javax.swing.JPanel adminPassangerTab;
+    private javax.swing.JPanel adminPlaneTab;
+    private javax.swing.JPanel adminTicketTab;
+    private javax.swing.JList<Passanger> allPassangerList;
+    private javax.swing.JScrollPane allPassangerPane;
+    private javax.swing.JList<Ticket> allTicketList;
+    private javax.swing.JScrollPane allTicketPane;
     private javax.swing.JButton bookButton;
     private javax.swing.JCheckBox classCheck;
     private javax.swing.JLabel classPrisLabel;
@@ -762,20 +1033,41 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JCheckBox foodCheck;
     private javax.swing.JList<Food> foodList;
     private javax.swing.JLabel foodTotalLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JPanel loginPassanger;
-    private javax.swing.JPanel newPassangerPanel;
+    private javax.swing.JPanel newPassangerTab;
     private javax.swing.JList<Passanger> passangerInPlaneList;
     private javax.swing.JScrollPane passangerInPlanePane;
     private javax.swing.JLabel passangerLabel;
+    private javax.swing.JList<Food> passangerTab_food_list;
+    private javax.swing.JLabel passangerTab_food_textLabel;
+    private javax.swing.JLabel passangerTab_food_value;
+    private javax.swing.JLabel passangerTab_id_textLabel;
+    private javax.swing.JLabel passangerTab_id_value;
+    private javax.swing.JLabel passangerTab_name_textLabel;
+    private javax.swing.JLabel passangerTab_name_value;
+    private javax.swing.JLabel passangerTab_planeCallsign_textLabel;
+    private javax.swing.JLabel passangerTab_planeCallsign_value;
+    private javax.swing.JLabel passangerTab_ticketBoolean_textLabel;
+    private javax.swing.JLabel passangerTab_ticketBoolean_value;
+    private javax.swing.JLabel passangerTab_totalValue_textLabel;
+    private javax.swing.JLabel passangerTab_totalValue_value;
     private javax.swing.JComboBox<Airplane> planeComboBox;
     private javax.swing.JList<Airplane> planeList;
     private javax.swing.JButton planeListLockButton;
     private javax.swing.JScrollPane planeScrollPane;
+    private javax.swing.JLabel planeTab_TotalValue_textLabel;
+    private javax.swing.JLabel planeTab_avaEco_textLabel;
+    private javax.swing.JLabel planeTab_avaEco_value;
+    private javax.swing.JLabel planeTab_avaFirst_value;
+    private javax.swing.JLabel planeTab_planeID_value;
+    private javax.swing.JLabel planeTab_planeId_textLabel;
+    private javax.swing.JLabel planeTab_totalValue_value;
     private javax.swing.JLabel prisListLabel;
     private javax.swing.JLabel prisTotalLabel;
     private javax.swing.JTextField searchButton;
+    private javax.swing.JPanel welcomeTab;
     private javax.swing.JTextField yourNameInput;
     // End of variables declaration//GEN-END:variables
 }

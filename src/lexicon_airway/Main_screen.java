@@ -35,6 +35,12 @@ public class Main_screen extends javax.swing.JFrame
     int classTotal = FIRSTCLASSPRICE;
     int foodTotal = 0;
     int drinkTotal = 0;
+
+    int planeFirstClass = 0;
+    int planeEcoClass = 0;
+    int planeTotalCap = 0;
+    int planeTotalPayout = 0;
+
     DefaultListModel<Airplane> planeListArray = new DefaultListModel();
 
     DefaultListModel<Food> foodListArrayFirstClass = new DefaultListModel();
@@ -46,8 +52,6 @@ public class Main_screen extends javax.swing.JFrame
     DefaultListModel<Passanger> planePassangerList = new DefaultListModel();
 
     DefaultListModel<Passanger> allPassangers = new DefaultListModel<>();
-
-    DefaultListModel<Ticket> allTickets = new DefaultListModel<>();
 
     /**
      * Creates new form Main_screen
@@ -66,12 +70,11 @@ public class Main_screen extends javax.swing.JFrame
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
         PassangerTab_allPassangerList.setModel(allPassangers);
-        allTicketList.setModel(allTickets);
 
         TabbedPane.remove(adminPlaneTab);
         TabbedPane.remove(adminOverviewTab);
         TabbedPane.remove(adminPassangerTab);
-        TabbedPane.remove(adminTicketTab);
+        TabbedPane.remove(adminSkyforge);
 
         //</editor-fold>
     }
@@ -139,10 +142,20 @@ public class Main_screen extends javax.swing.JFrame
         passangerTab_food_value = new javax.swing.JLabel();
         passangerTab_totalValue_textLabel = new javax.swing.JLabel();
         passangerTab_totalValue_value = new javax.swing.JLabel();
-        adminTicketTab = new javax.swing.JPanel();
-        allTicketPane = new javax.swing.JScrollPane();
-        allTicketList = new javax.swing.JList<>();
+        adminSkyforge = new javax.swing.JPanel();
+        adminSkyforge_callsign_textLabel = new javax.swing.JLabel();
+        adminSkyforge_ecoClass_textLabel = new javax.swing.JLabel();
+        adminSkyforge_firstClass_textLabel = new javax.swing.JLabel();
+        adminSkyforge_ecoClass_value = new javax.swing.JSpinner();
+        adminSkyforge_firstClass_value = new javax.swing.JSpinner();
+        adminSkyforge_maxPassanger_textLabel = new javax.swing.JLabel();
+        adminSkyforge_maxPassanger_value = new javax.swing.JLabel();
+        adminSkyforge_expectedPayout_textLabel = new javax.swing.JLabel();
+        adminSkyforge_expectedPayout_value = new javax.swing.JLabel();
+        adminSkyforge_orderPlaneButton = new javax.swing.JButton();
+        adminSkyforge_callsign_value = new javax.swing.JTextField();
         adminOverviewTab = new javax.swing.JPanel();
+        clock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -186,7 +199,7 @@ public class Main_screen extends javax.swing.JFrame
         );
         welcomeTabLayout.setVerticalGroup(
             welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         TabbedPane.addTab("Welcome", welcomeTab);
@@ -411,7 +424,7 @@ public class Main_screen extends javax.swing.JFrame
             .addGroup(adminPlaneTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(adminPlaneTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
                     .addGroup(adminPlaneTabLayout.createSequentialGroup()
                         .addComponent(planeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -540,7 +553,7 @@ public class Main_screen extends javax.swing.JFrame
                             .addComponent(passangerTab_food_textLabel)
                             .addComponent(passangerTab_food_value))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(passangerTab_totalValue_textLabel)
@@ -551,30 +564,111 @@ public class Main_screen extends javax.swing.JFrame
 
         TabbedPane.addTab("Passangers", adminPassangerTab);
 
-        adminTicketTab.setBackground(new java.awt.Color(255, 255, 255));
+        adminSkyforge.setBackground(new java.awt.Color(255, 255, 255));
 
-        allTicketList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        allTicketList.setCellRenderer(new basicCellRenderer());
-        allTicketPane.setViewportView(allTicketList);
+        adminSkyforge_callsign_textLabel.setText("Callsign");
 
-        javax.swing.GroupLayout adminTicketTabLayout = new javax.swing.GroupLayout(adminTicketTab);
-        adminTicketTab.setLayout(adminTicketTabLayout);
-        adminTicketTabLayout.setHorizontalGroup(
-            adminTicketTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminTicketTabLayout.createSequentialGroup()
-                .addContainerGap(96, Short.MAX_VALUE)
-                .addComponent(allTicketPane, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        adminTicketTabLayout.setVerticalGroup(
-            adminTicketTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(adminTicketTabLayout.createSequentialGroup()
+        adminSkyforge_ecoClass_textLabel.setText("Economy");
+
+        adminSkyforge_firstClass_textLabel.setText("First Class");
+
+        adminSkyforge_ecoClass_value.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
+        adminSkyforge_ecoClass_value.setBorder(null);
+        adminSkyforge_ecoClass_value.setEditor(new javax.swing.JSpinner.NumberEditor(adminSkyforge_ecoClass_value, ""));
+        adminSkyforge_ecoClass_value.addChangeListener(new javax.swing.event.ChangeListener()
+        {
+            public void stateChanged(javax.swing.event.ChangeEvent evt)
+            {
+                adminSkyforge_ecoClass_valueStateChanged(evt);
+            }
+        });
+
+        adminSkyforge_firstClass_value.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
+        adminSkyforge_firstClass_value.setBorder(null);
+        adminSkyforge_firstClass_value.setEditor(new javax.swing.JSpinner.NumberEditor(adminSkyforge_firstClass_value, ""));
+        adminSkyforge_firstClass_value.addChangeListener(new javax.swing.event.ChangeListener()
+        {
+            public void stateChanged(javax.swing.event.ChangeEvent evt)
+            {
+                adminSkyforge_firstClass_valueStateChanged(evt);
+            }
+        });
+
+        adminSkyforge_maxPassanger_textLabel.setText("Max Cap");
+
+        adminSkyforge_maxPassanger_value.setText(" ");
+
+        adminSkyforge_expectedPayout_textLabel.setText("Payout");
+
+        adminSkyforge_expectedPayout_value.setText(" ");
+
+        adminSkyforge_orderPlaneButton.setText("Order");
+        adminSkyforge_orderPlaneButton.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                adminSkyforge_orderPlaneButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout adminSkyforgeLayout = new javax.swing.GroupLayout(adminSkyforge);
+        adminSkyforge.setLayout(adminSkyforgeLayout);
+        adminSkyforgeLayout.setHorizontalGroup(
+            adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminSkyforgeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(allTicketPane, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(adminSkyforge_expectedPayout_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminSkyforge_maxPassanger_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminSkyforge_firstClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminSkyforge_callsign_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminSkyforge_ecoClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(adminSkyforge_maxPassanger_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(adminSkyforge_expectedPayout_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(adminSkyforge_ecoClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(adminSkyforge_firstClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 176, Short.MAX_VALUE))
+                            .addComponent(adminSkyforge_callsign_value)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminSkyforgeLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(adminSkyforge_orderPlaneButton)))
+                .addContainerGap())
+        );
+        adminSkyforgeLayout.setVerticalGroup(
+            adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_callsign_textLabel)
+                    .addComponent(adminSkyforge_callsign_value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_ecoClass_textLabel)
+                    .addComponent(adminSkyforge_ecoClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_firstClass_textLabel)
+                    .addComponent(adminSkyforge_firstClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_maxPassanger_textLabel)
+                    .addComponent(adminSkyforge_maxPassanger_value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_expectedPayout_textLabel)
+                    .addComponent(adminSkyforge_expectedPayout_value))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addComponent(adminSkyforge_orderPlaneButton)
                 .addContainerGap())
         );
 
-        TabbedPane.addTab("Tickets", adminTicketTab);
+        TabbedPane.addTab("Hangar", adminSkyforge);
 
         adminOverviewTab.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -586,10 +680,13 @@ public class Main_screen extends javax.swing.JFrame
         );
         adminOverviewTabLayout.setVerticalGroup(
             adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 317, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         TabbedPane.addTab("Overview", adminOverviewTab);
+
+        clock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        clock.setText("00:00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -597,33 +694,38 @@ public class Main_screen extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(TabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(TabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(searchButton))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(planeListLockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 2, Short.MAX_VALUE)))))
+                        .addGap(11, 11, 11)
+                        .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(planeListLockButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(TabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -637,7 +739,7 @@ public class Main_screen extends javax.swing.JFrame
         {
             TabbedPane.add("Planes", adminPlaneTab);
             TabbedPane.add("Passanger", adminPassangerTab);
-            TabbedPane.add("Tickets", adminTicketTab);
+            TabbedPane.add("Skyforge", adminSkyforge);
             TabbedPane.add("Overview", adminOverviewTab);
         }
     }//GEN-LAST:event_planeListKeyTyped
@@ -829,6 +931,55 @@ public class Main_screen extends javax.swing.JFrame
             }
         }
     }//GEN-LAST:event_TabbedPaneStateChanged
+
+    private void adminSkyforge_orderPlaneButtonActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_adminSkyforge_orderPlaneButtonActionPerformed
+    {//GEN-HEADEREND:event_adminSkyforge_orderPlaneButtonActionPerformed
+        Airplane plane = logic.createPlane(
+                adminSkyforge_callsign_value.getText(),
+                (Integer) adminSkyforge_firstClass_value.getValue(),
+                (Integer) adminSkyforge_ecoClass_value.getValue()
+        );
+
+        planeListArray.addElement(plane);
+        planeComboBox.addItem(plane);
+
+    }//GEN-LAST:event_adminSkyforge_orderPlaneButtonActionPerformed
+
+    private void adminSkyforge_ecoClass_valueStateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_adminSkyforge_ecoClass_valueStateChanged
+    {//GEN-HEADEREND:event_adminSkyforge_ecoClass_valueStateChanged
+        if ((Integer) adminSkyforge_ecoClass_value.getValue() > planeEcoClass)
+        {
+            planeEcoClass++;
+            planeTotalPayout = planeTotalPayout + 5000;
+        } else if ((Integer) adminSkyforge_ecoClass_value.getValue() < planeEcoClass)
+        {
+            planeEcoClass--;
+            planeTotalPayout = planeTotalPayout - 5000;
+        }
+        planeTotalCap = planeEcoClass + planeFirstClass;
+        adminSkyforge_maxPassanger_value.setText("" + planeTotalCap);
+        adminSkyforge_expectedPayout_value.setText("" + planeTotalPayout);
+
+    }//GEN-LAST:event_adminSkyforge_ecoClass_valueStateChanged
+
+
+    private void adminSkyforge_firstClass_valueStateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_adminSkyforge_firstClass_valueStateChanged
+    {//GEN-HEADEREND:event_adminSkyforge_firstClass_valueStateChanged
+        if ((Integer) adminSkyforge_firstClass_value.getValue() > planeFirstClass)
+        {
+            planeFirstClass++;
+            planeTotalPayout = planeTotalPayout + 20000;
+        } else if ((Integer) adminSkyforge_firstClass_value.getValue() < planeFirstClass)
+        {
+            planeFirstClass--;
+            planeTotalPayout = planeTotalPayout - 20000;
+        }
+        planeTotalCap = planeEcoClass + planeFirstClass;
+        adminSkyforge_maxPassanger_value.setText("" + planeTotalCap);
+        planeTotalPayout = planeTotalPayout + 20000;
+        adminSkyforge_expectedPayout_value.setText("" + planeTotalPayout);
+
+    }//GEN-LAST:event_adminSkyforge_firstClass_valueStateChanged
 
     //<editor-fold defaultstate="collapsed" desc="Cell Renderers">
     class planeCellRenderer extends JLabel implements ListCellRenderer
@@ -1051,12 +1202,6 @@ public class Main_screen extends javax.swing.JFrame
                     allPassangers.addElement(item);
         });
 
-        logic.db.TicketDatabase.stream().forEach((item)
-                -> 
-                {
-                    allTickets.addElement(item);
-        });
-
     }
 
     /**
@@ -1114,13 +1259,23 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JPanel adminOverviewTab;
     private javax.swing.JPanel adminPassangerTab;
     private javax.swing.JPanel adminPlaneTab;
-    private javax.swing.JPanel adminTicketTab;
+    private javax.swing.JPanel adminSkyforge;
+    private javax.swing.JLabel adminSkyforge_callsign_textLabel;
+    private javax.swing.JTextField adminSkyforge_callsign_value;
+    private javax.swing.JLabel adminSkyforge_ecoClass_textLabel;
+    private javax.swing.JSpinner adminSkyforge_ecoClass_value;
+    private javax.swing.JLabel adminSkyforge_expectedPayout_textLabel;
+    private javax.swing.JLabel adminSkyforge_expectedPayout_value;
+    private javax.swing.JLabel adminSkyforge_firstClass_textLabel;
+    private javax.swing.JSpinner adminSkyforge_firstClass_value;
+    private javax.swing.JLabel adminSkyforge_maxPassanger_textLabel;
+    private javax.swing.JLabel adminSkyforge_maxPassanger_value;
+    private javax.swing.JButton adminSkyforge_orderPlaneButton;
     private javax.swing.JScrollPane allPassangerPane;
-    private javax.swing.JList<Ticket> allTicketList;
-    private javax.swing.JScrollPane allTicketPane;
     private javax.swing.JButton bookButton;
     private javax.swing.JCheckBox classCheck;
     private javax.swing.JLabel classPrisLabel;
+    private javax.swing.JLabel clock;
     private javax.swing.JCheckBox drinkCheck;
     private javax.swing.JList<Food> drinkList;
     private javax.swing.JLabel flightOptionsLabel;

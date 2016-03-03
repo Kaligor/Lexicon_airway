@@ -166,12 +166,14 @@ public class Logic extends STATIC
      * @param callsign
      * @param firstclass
      * @param economyclass
+     * @return 
      */
-    public void createPlane(String callsign, int firstclass, int economyclass)
+    public final Airplane createPlane(String callsign, int firstclass, int economyclass)
     {
         Airplane plane = new Airplane(callsign, firstclass, economyclass);
         plane.setMenu(db.addFood());
         db.HangerDatabase.add(plane);
+        return plane;
     }
 
     /**

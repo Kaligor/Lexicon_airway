@@ -11,6 +11,7 @@ public class DB
     ArrayList<Passanger> PassangerDatabase = new ArrayList<>();
     ArrayList<Airplane> HangerDatabase = new ArrayList<>();
     ArrayList<Food> FoodMenu = new ArrayList<>();
+    ArrayList<Flight> FlightDatabase = new ArrayList<>();
 
     public DB(boolean fake)
     {    
@@ -23,6 +24,9 @@ public class DB
         HangerDatabase.add(new Airplane("Alpha Air", 10, 20));
         HangerDatabase.add(new Airplane("Silver Wind", 5, 15));
         HangerDatabase.add(new Airplane("Bright Comet", 15, 0));
+        
+        FlightDatabase.add(new Flight(15, 30, 20, 0, "Tokyo"));
+        FlightDatabase.add(new Flight(17, 15, 21, 0, "New York"));
         
         FoodMenu.addAll(addFood());
     }

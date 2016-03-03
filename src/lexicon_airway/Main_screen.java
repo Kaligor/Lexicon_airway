@@ -9,8 +9,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,6 +34,7 @@ public class Main_screen extends javax.swing.JFrame
     Timer timer;
     int minuteCounter;
     int hourCounter;
+    int curTimeInMillis;
     String hourText;
     String minuteText;
     //</editor-fold>
@@ -50,6 +49,8 @@ public class Main_screen extends javax.swing.JFrame
     int planeEcoClass = 0;
     int planeTotalCap = 0;
     int planeTotalPayout = 0;
+
+    Flight nextFlight;
 
     DefaultListModel<Airplane> planeListArray = new DefaultListModel();
 
@@ -77,6 +78,7 @@ public class Main_screen extends javax.swing.JFrame
         foodList.setVisible(false);
         drinkList.setVisible(false);
         planeList.setSelectedIndex(0);
+        nextFlight = findNextFlight();
         theTimer(14, 0);
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
@@ -106,6 +108,7 @@ public class Main_screen extends javax.swing.JFrame
         planeListLockButton = new javax.swing.JButton();
         TabbedPane = new javax.swing.JTabbedPane();
         welcomeTab = new javax.swing.JPanel();
+        Welcome = new javax.swing.JLabel();
         newPassangerTab = new javax.swing.JPanel();
         ClassLabel = new javax.swing.JLabel();
         prisListLabel = new javax.swing.JLabel();
@@ -204,15 +207,25 @@ public class Main_screen extends javax.swing.JFrame
 
         welcomeTab.setBackground(new java.awt.Color(255, 255, 255));
 
+        Welcome.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        Welcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Welcome.setText("WELCOME");
+
         javax.swing.GroupLayout welcomeTabLayout = new javax.swing.GroupLayout(welcomeTab);
         welcomeTab.setLayout(welcomeTabLayout);
         welcomeTabLayout.setHorizontalGroup(
             welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 288, Short.MAX_VALUE)
+            .addGroup(welcomeTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                .addContainerGap())
         );
         welcomeTabLayout.setVerticalGroup(
             welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGroup(welcomeTabLayout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addComponent(Welcome, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         TabbedPane.addTab("Welcome", welcomeTab);
@@ -586,7 +599,6 @@ public class Main_screen extends javax.swing.JFrame
         adminSkyforge_firstClass_textLabel.setText("First Class");
 
         adminSkyforge_ecoClass_value.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
-        adminSkyforge_ecoClass_value.setBorder(null);
         adminSkyforge_ecoClass_value.setEditor(new javax.swing.JSpinner.NumberEditor(adminSkyforge_ecoClass_value, ""));
         adminSkyforge_ecoClass_value.addChangeListener(new javax.swing.event.ChangeListener()
         {
@@ -597,7 +609,6 @@ public class Main_screen extends javax.swing.JFrame
         });
 
         adminSkyforge_firstClass_value.setModel(new javax.swing.SpinnerNumberModel(0, 0, 30, 1));
-        adminSkyforge_firstClass_value.setBorder(null);
         adminSkyforge_firstClass_value.setEditor(new javax.swing.JSpinner.NumberEditor(adminSkyforge_firstClass_value, ""));
         adminSkyforge_firstClass_value.addChangeListener(new javax.swing.event.ChangeListener()
         {
@@ -725,18 +736,16 @@ public class Main_screen extends javax.swing.JFrame
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(planeScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(planeScrollPane)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
+                                .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(clock, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addGap(154, 154, 154))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -944,15 +953,16 @@ public class Main_screen extends javax.swing.JFrame
     {//GEN-HEADEREND:event_TabbedPaneStateChanged
         if (TabbedPane.getSelectedComponent().equals(adminPassangerTab))
         {
-            
-        } else if (TabbedPane.getSelectedComponent().equals(adminOverviewTab)) {
+
+        } else if (TabbedPane.getSelectedComponent().equals(adminOverviewTab))
+        {
             double income = 0;
             for (Airplane item : logic.db.HangerDatabase)
             {
                 income = income + item.getTotalIncome();
             }
             income = 0.3 * income;
-                adminOverview_expectedIncome_value.setText("" + income + " Kr");
+            adminOverview_expectedIncome_value.setText("" + income + " Kr");
         }
     }//GEN-LAST:event_TabbedPaneStateChanged
 
@@ -1015,15 +1025,31 @@ public class Main_screen extends javax.swing.JFrame
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
         {
             Airplane entry = (Airplane) value;
-            setText(" " + entry.getCallsign() + " : " + entry.getAvEco() + " : " + entry.getAvFirst());
+            if (entry.getFlight().landingHour != -1)
+            {
+                String defaultValue = " " + entry.getCallsign()
+                        + " : " + entry.getAvEco()
+                        + " : " + entry.getAvFirst()
+                        + " - Dest: " + entry.getFlight().Destination
+                        + " - Fly: " + entry.getFlight().takeOffHour + ":" + entry.getFlight().takeOffMinute
+                        + " - Arr: " + entry.getFlight().landingHour + ":" + entry.getFlight().landingMinute;
+                if (entry.getIsInFlight() == true)
+                {
+                    setText(defaultValue + " Sta: In Flight");
+                } else if (entry.getIsInFlight() == false)
+                {
+                    setText(defaultValue + " Sta: Landed");
+                }
+            } else
+            {
+                setText(" " + entry.getCallsign() + " No Flight");
+            }
             setIcon(null);
             if (isSelected)
             {
-//                setBackground(Color.GRAY);
                 setForeground(HIGHLIGHT_COLOR);
             } else
             {
-//                setBackground(list.getBackground());
                 setForeground(Color.BLACK);
             }
 
@@ -1045,11 +1071,9 @@ public class Main_screen extends javax.swing.JFrame
             setIcon(null);
             if (isSelected)
             {
-//                setBackground(Color.GRAY);
                 setForeground(HIGHLIGHT_COLOR);
             } else
             {
-//                setBackground(Color.BLACK);
                 setForeground(Color.BLACK);
             }
 
@@ -1117,15 +1141,9 @@ public class Main_screen extends javax.swing.JFrame
 
             if (isSelected)
             {
-//                setBackground(Color.GRAY);
                 setForeground(HIGHLIGHT_COLOR);
             }
-//            else
-//            {
-//                setBackground(Color.BLACK);
-//                setForeground(Color.BLACK);
-//                
-//            }
+
             return this;
         }
     }
@@ -1182,17 +1200,53 @@ public class Main_screen extends javax.swing.JFrame
         }
     }
 
+    private Flight findNextFlight()
+    {
+        int lowestTime = 2460;
+        Flight flight = null;
+        for (Flight item : logic.db.FlightDatabase)
+        {
+//            System.out.println(item);
+            if (item.takeOffCheck() < lowestTime && curTimeInMillis < item.takeOffCheck())
+            {
+                lowestTime = item.takeOffHour;
+                flight = item;
+//                System.out.println(lowestHour);
+            }
+        }
+//        System.out.println(flight);
+        return flight;
+    }
+
+    private void activatePlane(int planeId)
+    {
+        planeListArray.get(planeId).takeOff();
+        int selected = planeList.getSelectedIndex();
+        planeList.clearSelection();
+        planeList.setSelectedIndex(selected);
+//        planeList.setSelectedIndex(planeList.getSelectedIndex());
+    }
+
+    private void deactivePlane(int planeId)
+    {
+        planeListArray.get(planeId).land();
+        int selected = planeList.getSelectedIndex();
+        planeList.clearSelection();
+        planeList.setSelectedIndex(selected);
+    }
+
     public final void theTimer(int hour, int minutes)
     {
-        System.out.println(hour + "" + minutes);
         hourCounter = hour;
         minuteCounter = minutes;
+        curTimeInMillis = (hour * 10000) + (minutes * 1000);
         hourText = "" + hourCounter;
         minuteText = "" + minuteCounter;
         timer = new Timer(100, (ActionEvent e)
                 -> 
                 {
-                    
+                    //<editor-fold defaultstate="collapsed" desc="Clock">
+
                     if (hourCounter == 23 && minuteCounter == 59)
                     {
                         hourCounter = 0;
@@ -1209,7 +1263,7 @@ public class Main_screen extends javax.swing.JFrame
                     {
                         minuteText = "" + minuteCounter;
                     }
-                    
+
                     if (minuteCounter == 60)
                     {
                         minuteCounter = 0;
@@ -1224,6 +1278,23 @@ public class Main_screen extends javax.swing.JFrame
                     }
 
                     clock.setText(hourText + ":" + minuteText);
+//</editor-fold>
+                    System.out.println(curTimeInMillis);
+                    System.out.println(nextFlight.takeOffCheck());
+                    System.out.println(hourText + ":" + minuteText);
+                    if (curTimeInMillis == nextFlight.takeOffCheck())
+                    {
+                        activatePlane(nextFlight.planeID);
+                        System.out.println("Taking Off - " + nextFlight.planeID);
+                        Timer thisFlight = new Timer(nextFlight.flightTime, (ActionEvent f)
+                                -> 
+                                {
+                                    System.out.println("Landing" + nextFlight.planeID);
+                                    deactivePlane(nextFlight.planeID);
+                        });
+                        thisFlight.start();
+                    }
+                    findNextFlight();
 
         });
         timer.start();
@@ -1328,6 +1399,7 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JList<Passanger> PassangerTab_allPassangerList;
     private javax.swing.JLabel PlaneTab_avaFirst_textLabel;
     private javax.swing.JTabbedPane TabbedPane;
+    private javax.swing.JLabel Welcome;
     private javax.swing.JPanel adminOverviewTab;
     private javax.swing.JLabel adminOverview_expectedIncome_textLabel;
     private javax.swing.JLabel adminOverview_expectedIncome_value;

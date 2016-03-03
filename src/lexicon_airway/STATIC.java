@@ -13,6 +13,8 @@ public class STATIC
     
     static final Ticket emptyTicket = new Ticket();
     
+    static final Flight noFlight = new Flight(-1, -1, -1, -1, "No Flight");
+    
     public void fancyPrinting(String title, String conTitle1, String value1) {
         System.out.println("*-------------" + title + "-------------*");
         System.out.println(conTitle1 + " : " + value1);

@@ -17,6 +17,10 @@ public class Airplane extends STATIC
 
     private int totalIncome = 0;
 
+    private boolean inFlight;
+
+    private Flight flight = noFlight;
+
     private final ArrayList<Passanger> passangers = new ArrayList<>();
     private ArrayList<Food> menu = new ArrayList<>();
 
@@ -26,22 +30,37 @@ public class Airplane extends STATIC
         this.nrOfFirst = nrOfFirst;
         this.nrOfEco = nrOfEco;
 
+        inFlight = false;
+
         avFirst = nrOfFirst;
         avEco = nrOfEco;
 
         id = nextID;
         nextID++;
     }
-    
-    public void addPassanger(Passanger passanger) {
+
+    public void addPassanger(Passanger passanger)
+    {
         this.passangers.add(passanger);
     }
-    
-    public void printPassangers() {
-        passangers.stream().forEach((item) ->
-        {
-            System.out.println(item.getName());
+
+    public void printPassangers()
+    {
+        passangers.stream().forEach((item)
+                -> 
+                {
+                    System.out.println(item.getName());
         });
+    }
+
+    public void takeOff()
+    {
+        inFlight = true;
+    }
+
+    public void land()
+    {
+        inFlight = false;
     }
 
     /**
@@ -61,9 +80,10 @@ public class Airplane extends STATIC
 
     public void updateIncome(ArrayList<Food> food)
     {
-        food.stream().forEach((item) ->
-        {
-            totalIncome = totalIncome + item.getPrice();
+        food.stream().forEach((item)
+                -> 
+                {
+                    totalIncome = totalIncome + item.getPrice();
         });
     }
 
@@ -95,6 +115,22 @@ public class Airplane extends STATIC
 
 //    public void updateIncome()
     //<editor-fold defaultstate="collapsed" desc="Getters & Setters">
+    
+    
+    public void setFlight(Flight flight)
+    {
+        this.flight = flight;
+    }
+
+    public Flight getFlight()
+    {
+        return flight;
+    }
+
+    public boolean getIsInFlight()
+    {
+        return inFlight;
+    }
 
     public int getNrOfFirst()
     {
@@ -110,7 +146,7 @@ public class Airplane extends STATIC
     {
         return totalIncome;
     }
-    
+
     public void setMenu(ArrayList<Food> menu)
     {
         this.menu = menu;
@@ -163,5 +199,4 @@ public class Airplane extends STATIC
         return callsign;
     }
 
-    
 }

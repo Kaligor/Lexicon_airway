@@ -24,6 +24,10 @@ public class Logic extends STATIC
         bookTicket(db.HangerDatabase.get(0), findPassanger(3), FIRSTCLASS, fakeFoodListFirstClass);
         bookTicket(db.HangerDatabase.get(1), findPassanger(1), ECONOMYCLASS, fakeFoodListEcoClass);
         bookTicket(db.HangerDatabase.get(0), findPassanger(2), ECONOMYCLASS, fakeFoodListEcoClass);
+        
+        assignFlight(db.FlightDatabase.get(0), db.HangerDatabase.get(0));
+        assignFlight(db.FlightDatabase.get(1), db.HangerDatabase.get(1));
+        
     }
 
     //<editor-fold defaultstate="collapsed" desc="Passanger Functions">
@@ -174,6 +178,17 @@ public class Logic extends STATIC
         plane.setMenu(db.addFood());
         db.HangerDatabase.add(plane);
         return plane;
+    }
+    
+    public final Flight createFlight(int takeOffHour, int TakeOffMin, int LandHour, int LandMin, String Destination) {
+        Flight flight = new Flight(takeOffHour, TakeOffMin, LandHour, LandMin, Destination);
+        db.FlightDatabase.add(flight);
+        
+        return flight;
+    }
+    
+    public final void assignFlight(Flight flight, Airplane plane) {
+        plane.setFlight(flight);
     }
 
     /**

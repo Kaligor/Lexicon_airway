@@ -7,7 +7,6 @@ package lexicon_airway;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.swing.Timer;
 
 /**
  *
@@ -31,14 +29,6 @@ public class Main_screen extends javax.swing.JFrame
     static final int ECONOMYCLASSPRICE = 5000;
 
     String admin = "";
-
-    //<editor-fold defaultstate="collapsed" desc="Timer">
-    Timer timer;
-    int minuteCounter;
-    int hourCounter;
-    String hourText;
-    String minuteText;
-    //</editor-fold>
 
     Logic logic = new Logic(true);
     int totalPris = 0;
@@ -77,7 +67,6 @@ public class Main_screen extends javax.swing.JFrame
         foodList.setVisible(false);
         drinkList.setVisible(false);
         planeList.setSelectedIndex(0);
-        theTimer(14, 0);
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
         PassangerTab_allPassangerList.setModel(allPassangers);
@@ -166,8 +155,6 @@ public class Main_screen extends javax.swing.JFrame
         adminSkyforge_orderPlaneButton = new javax.swing.JButton();
         adminSkyforge_callsign_value = new javax.swing.JTextField();
         adminOverviewTab = new javax.swing.JPanel();
-        adminOverview_expectedIncome_textLabel = new javax.swing.JLabel();
-        adminOverview_expectedIncome_value = new javax.swing.JLabel();
         clock = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -575,7 +562,7 @@ public class Main_screen extends javax.swing.JFrame
                 .addContainerGap())
         );
 
-        TabbedPane.addTab("Passanger", adminPassangerTab);
+        TabbedPane.addTab("Passangers", adminPassangerTab);
 
         adminSkyforge.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -681,39 +668,25 @@ public class Main_screen extends javax.swing.JFrame
                 .addContainerGap())
         );
 
-        TabbedPane.addTab("Skyforge", adminSkyforge);
+        TabbedPane.addTab("Hangar", adminSkyforge);
 
         adminOverviewTab.setBackground(new java.awt.Color(255, 255, 255));
-
-        adminOverview_expectedIncome_textLabel.setText("Expected Income");
-
-        adminOverview_expectedIncome_value.setText(" ");
 
         javax.swing.GroupLayout adminOverviewTabLayout = new javax.swing.GroupLayout(adminOverviewTab);
         adminOverviewTab.setLayout(adminOverviewTabLayout);
         adminOverviewTabLayout.setHorizontalGroup(
             adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(adminOverviewTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(adminOverview_expectedIncome_textLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adminOverview_expectedIncome_value, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGap(0, 288, Short.MAX_VALUE)
         );
         adminOverviewTabLayout.setVerticalGroup(
             adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(adminOverviewTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(adminOverviewTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(adminOverview_expectedIncome_textLabel)
-                    .addComponent(adminOverview_expectedIncome_value))
-                .addContainerGap(293, Short.MAX_VALUE))
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         TabbedPane.addTab("Overview", adminOverviewTab);
 
         clock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        clock.setText("14:00");
+        clock.setText("00:00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -956,14 +929,6 @@ public class Main_screen extends javax.swing.JFrame
             {
                 Logger.getLogger(Main_screen.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (TabbedPane.getSelectedComponent().equals(adminOverviewTab)) {
-            double income = 0;
-            for (Airplane item : logic.db.HangerDatabase)
-            {
-                income = income + item.getTotalIncome();
-            }
-            income = 0.3 * income;
-                adminOverview_expectedIncome_value.setText("" + income + " Kr");
         }
     }//GEN-LAST:event_TabbedPaneStateChanged
 
@@ -1193,54 +1158,6 @@ public class Main_screen extends javax.swing.JFrame
         }
     }
 
-    public final void theTimer(int hour, int minutes)
-    {
-        System.out.println(hour + "" + minutes);
-        hourCounter = hour;
-        minuteCounter = minutes;
-        hourText = "" + hourCounter;
-        minuteText = "" + minuteCounter;
-        timer = new Timer(100, (ActionEvent e)
-                -> 
-                {
-                    
-                    if (hourCounter == 23 && minuteCounter == 59)
-                    {
-                        hourCounter = 0;
-                        minuteCounter = 0;
-                        hourText = "00";
-                        minuteText = "00";
-                    }
-
-                    minuteCounter++;
-                    if (minuteCounter < 10)
-                    {
-                        minuteText = "0" + minuteCounter + "";
-                    } else
-                    {
-                        minuteText = "" + minuteCounter;
-                    }
-                    
-                    if (minuteCounter == 60)
-                    {
-                        minuteCounter = 0;
-                        hourCounter++;
-                        if (hourCounter < 10)
-                        {
-                            hourText = "0" + hourCounter;
-                        } else
-                        {
-                            hourText = "" + hourCounter;
-                        }
-                    }
-
-                    clock.setText(hourText + ":" + minuteText);
-
-        });
-        timer.start();
-        timer.setRepeats(true);
-    }
-
     public void calculateTotal()
     {
         totalPris = foodTotal + drinkTotal + classTotal;
@@ -1340,8 +1257,6 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JLabel PlaneTab_avaFirst_textLabel;
     private javax.swing.JTabbedPane TabbedPane;
     private javax.swing.JPanel adminOverviewTab;
-    private javax.swing.JLabel adminOverview_expectedIncome_textLabel;
-    private javax.swing.JLabel adminOverview_expectedIncome_value;
     private javax.swing.JPanel adminPassangerTab;
     private javax.swing.JPanel adminPlaneTab;
     private javax.swing.JPanel adminSkyforge;

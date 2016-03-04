@@ -1,6 +1,7 @@
 package lexicon_airway;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class Logic extends STATIC
 {
@@ -24,11 +25,22 @@ public class Logic extends STATIC
         bookTicket(db.HangerDatabase.get(0), findPassanger(3), FIRSTCLASS, fakeFoodListFirstClass);
         bookTicket(db.HangerDatabase.get(1), findPassanger(1), ECONOMYCLASS, fakeFoodListEcoClass);
         bookTicket(db.HangerDatabase.get(0), findPassanger(2), ECONOMYCLASS, fakeFoodListEcoClass);
-        
+
         assignFlight(db.FlightDatabase.get(0), db.HangerDatabase.get(0));
         assignFlight(db.FlightDatabase.get(1), db.HangerDatabase.get(1));
-        
+        assignFlight(db.FlightDatabase.get(2), db.HangerDatabase.get(2));
+
+        db.FlightDatabase.sort(takeOffComparator);
     }
+
+    Comparator<Flight> takeOffComparator = (Flight o1, Flight o2)
+            -> 
+            {
+                return o1.takeOffHour - o2.takeOffHour;
+
+    };
+    
+    
 
     //<editor-fold defaultstate="collapsed" desc="Passanger Functions">
     /**
@@ -63,10 +75,8 @@ public class Logic extends STATIC
 //                System.out.println("-----* Plane *-----");
 //                System.out.println(plane.getCallsign());
 //                System.out.println("***************************");
-
 //                System.out.println("");
 //                System.out.println(passanger.toString());
-
                 return true;
             }
         } else
@@ -170,7 +180,7 @@ public class Logic extends STATIC
      * @param callsign
      * @param firstclass
      * @param economyclass
-     * @return 
+     * @return
      */
     public final Airplane createPlane(String callsign, int firstclass, int economyclass)
     {
@@ -179,16 +189,34 @@ public class Logic extends STATIC
         db.HangerDatabase.add(plane);
         return plane;
     }
-    
-    public final Flight createFlight(int takeOffHour, int TakeOffMin, int LandHour, int LandMin, String Destination) {
+
+    public final Flight createFlight(int takeOffHour, int TakeOffMin, int LandHour, int LandMin, String Destination)
+    {
         Flight flight = new Flight(takeOffHour, TakeOffMin, LandHour, LandMin, Destination);
         db.FlightDatabase.add(flight);
-        
+
         return flight;
     }
+
+    public final void assignFlight(Flight flight, Airplane plane)
+    {
+        db.HangerDatabase.get(plane.getId()).setFlight(flight);
+        flight.planeID = plane.getId();
+    }
+
+    public final void flightStarted(Flight flight)
+    {
+        db.FlightDatabase.remove(flight);
+    }
     
-    public final void assignFlight(Flight flight, Airplane plane) {
-        plane.setFlight(flight);
+    public final Flight getFlightByID (int id) {
+        for (Flight item : db.FlightDatabase)
+        {
+            if(item.id == id) {
+                return item;
+            }
+        }
+        return null;
     }
 
     /**

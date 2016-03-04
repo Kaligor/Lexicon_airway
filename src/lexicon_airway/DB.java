@@ -27,6 +27,8 @@ public class DB
         
         FlightDatabase.add(new Flight(15, 30, 20, 0, "Tokyo"));
         FlightDatabase.add(new Flight(17, 15, 21, 0, "New York"));
+        FlightDatabase.add(new Flight(16, 45, 17, 30, "Malmö"));
+       
         
         FoodMenu.addAll(addFood());
     }

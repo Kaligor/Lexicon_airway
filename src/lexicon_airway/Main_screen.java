@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Comparator;
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,6 +28,8 @@ public class Main_screen extends javax.swing.JFrame
 
     static final int FIRSTCLASSPRICE = 20000;
     static final int ECONOMYCLASSPRICE = 5000;
+
+    static final Flight noFlight = new Flight();
 
     String admin = "";
 
@@ -50,7 +53,15 @@ public class Main_screen extends javax.swing.JFrame
     int planeTotalCap = 0;
     int planeTotalPayout = 0;
 
-    Flight nextFlight;
+    //<editor-fold defaultstate="collapsed" desc="Next Flight Method">
+    Flight nextTakeOff;
+    Flight nextLanding;
+    Flight flightCheck = noFlight;
+    int nextFlightID = 1;
+    int nextLandingID = 0;
+
+    int landingArray[] = new int[logic.db.FlightDatabase.size()];
+//</editor-fold>
 
     DefaultListModel<Airplane> planeListArray = new DefaultListModel();
 
@@ -78,8 +89,16 @@ public class Main_screen extends javax.swing.JFrame
         foodList.setVisible(false);
         drinkList.setVisible(false);
         planeList.setSelectedIndex(0);
-        nextFlight = findNextFlight();
-        theTimer(14, 0);
+        firstFlight();
+        fillLanding();
+        theTimer(12, 0);
+        if (minuteCounter < 10)
+        {
+            clock.setText(hourCounter + " : " + minuteCounter + "0");
+        } else
+        {
+            clock.setText(hourCounter + " : " + minuteCounter);
+        }
 
         //<editor-fold defaultstate="collapsed" desc="Admin Plane Tab">
         PassangerTab_allPassangerList.setModel(allPassangers);
@@ -168,6 +187,15 @@ public class Main_screen extends javax.swing.JFrame
         adminSkyforge_expectedPayout_value = new javax.swing.JLabel();
         adminSkyforge_orderPlaneButton = new javax.swing.JButton();
         adminSkyforge_callsign_value = new javax.swing.JTextField();
+        adminSkyforge_FlightName_textLabel = new javax.swing.JLabel();
+        adminSkyforge_flightDestination_textLabel = new javax.swing.JLabel();
+        adminSkyforge_flightDestination_value = new javax.swing.JTextField();
+        adminSkyforge_takeOff_textLabel = new javax.swing.JLabel();
+        adminSkyforge_landing_textLabel = new javax.swing.JLabel();
+        adminSkyforge_takeOffHour = new javax.swing.JSpinner();
+        adminSkyforge_takeOffMinute = new javax.swing.JSpinner();
+        adminSkyforge_landingHour = new javax.swing.JSpinner();
+        adminSkyforge_landingMinute = new javax.swing.JSpinner();
         adminOverviewTab = new javax.swing.JPanel();
         adminOverview_expectedIncome_textLabel = new javax.swing.JLabel();
         adminOverview_expectedIncome_value = new javax.swing.JLabel();
@@ -217,7 +245,7 @@ public class Main_screen extends javax.swing.JFrame
             welcomeTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(welcomeTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+                .addComponent(Welcome, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)
                 .addContainerGap())
         );
         welcomeTabLayout.setVerticalGroup(
@@ -329,7 +357,7 @@ public class Main_screen extends javax.swing.JFrame
                                 .addComponent(ClassLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(5, 5, 5)
                                 .addComponent(classCheck)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(prisTotalLabel)
                             .addGroup(newPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -442,7 +470,7 @@ public class Main_screen extends javax.swing.JFrame
                         .addComponent(planeTab_avaEco_value, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(planeTab_avaEco_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                .addComponent(passangerInPlanePane, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                 .addContainerGap())
         );
         adminPlaneTabLayout.setVerticalGroup(
@@ -531,7 +559,7 @@ public class Main_screen extends javax.swing.JFrame
                             .addComponent(passangerTab_id_textLabel))
                         .addGap(7, 7, 7)
                         .addGroup(adminPassangerTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(passangerTab_id_value, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                            .addComponent(passangerTab_id_value, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                             .addComponent(passangerTab_name_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(adminPassangerTabLayout.createSequentialGroup()
@@ -635,6 +663,28 @@ public class Main_screen extends javax.swing.JFrame
             }
         });
 
+        adminSkyforge_FlightName_textLabel.setText("Flight");
+
+        adminSkyforge_flightDestination_textLabel.setText("Destination");
+
+        adminSkyforge_flightDestination_value.setText("!!! FEATURE NOT IMPLEMENTED !!!");
+
+        adminSkyforge_takeOff_textLabel.setText("Take Off");
+
+        adminSkyforge_landing_textLabel.setText("Landing");
+
+        adminSkyforge_takeOffHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        adminSkyforge_takeOffHour.setBorder(null);
+
+        adminSkyforge_takeOffMinute.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        adminSkyforge_takeOffMinute.setBorder(null);
+
+        adminSkyforge_landingHour.setModel(new javax.swing.SpinnerNumberModel(0, 0, 23, 1));
+        adminSkyforge_landingHour.setBorder(null);
+
+        adminSkyforge_landingMinute.setModel(new javax.swing.SpinnerNumberModel(0, 0, 59, 1));
+        adminSkyforge_landingMinute.setBorder(null);
+
         javax.swing.GroupLayout adminSkyforgeLayout = new javax.swing.GroupLayout(adminSkyforge);
         adminSkyforge.setLayout(adminSkyforgeLayout);
         adminSkyforgeLayout.setHorizontalGroup(
@@ -642,26 +692,46 @@ public class Main_screen extends javax.swing.JFrame
             .addGroup(adminSkyforgeLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(adminSkyforgeLayout.createSequentialGroup()
-                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(adminSkyforge_expectedPayout_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adminSkyforge_maxPassanger_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adminSkyforge_firstClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adminSkyforge_callsign_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adminSkyforge_ecoClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(adminSkyforge_maxPassanger_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adminSkyforge_expectedPayout_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(adminSkyforgeLayout.createSequentialGroup()
-                                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(adminSkyforge_ecoClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(adminSkyforge_firstClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 176, Short.MAX_VALUE))
-                            .addComponent(adminSkyforge_callsign_value)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminSkyforgeLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(adminSkyforge_orderPlaneButton)))
+                        .addComponent(adminSkyforge_orderPlaneButton))
+                    .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(adminSkyforge_takeOff_textLabel)
+                            .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(adminSkyforge_FlightName_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_expectedPayout_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_maxPassanger_textLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_firstClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_callsign_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_ecoClass_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_flightDestination_textLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(adminSkyforge_maxPassanger_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(adminSkyforge_expectedPayout_value, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(adminSkyforge_callsign_value)
+                                    .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                                        .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(adminSkyforge_ecoClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(adminSkyforge_firstClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(adminSkyforge_flightDestination_value, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminSkyforgeLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adminSkyforge_landing_textLabel)
+                                .addGap(45, 45, 45))))
+                    .addGroup(adminSkyforgeLayout.createSequentialGroup()
+                        .addComponent(adminSkyforge_takeOffHour, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adminSkyforge_takeOffMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(adminSkyforge_landingHour, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(adminSkyforge_landingMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)))
                 .addContainerGap())
         );
         adminSkyforgeLayout.setVerticalGroup(
@@ -687,7 +757,23 @@ public class Main_screen extends javax.swing.JFrame
                 .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(adminSkyforge_expectedPayout_textLabel)
                     .addComponent(adminSkyforge_expectedPayout_value))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(adminSkyforge_FlightName_textLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_flightDestination_textLabel)
+                    .addComponent(adminSkyforge_flightDestination_value, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_takeOff_textLabel)
+                    .addComponent(adminSkyforge_landing_textLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(adminSkyforgeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(adminSkyforge_takeOffHour, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminSkyforge_takeOffMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminSkyforge_landingHour, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminSkyforge_landingMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
                 .addComponent(adminSkyforge_orderPlaneButton)
                 .addContainerGap())
         );
@@ -708,7 +794,7 @@ public class Main_screen extends javax.swing.JFrame
                 .addContainerGap()
                 .addComponent(adminOverview_expectedIncome_textLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(adminOverview_expectedIncome_value, javax.swing.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .addComponent(adminOverview_expectedIncome_value, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                 .addContainerGap())
         );
         adminOverviewTabLayout.setVerticalGroup(
@@ -740,7 +826,7 @@ public class Main_screen extends javax.swing.JFrame
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)))
+                                .addComponent(planeListLockButton, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -771,13 +857,25 @@ public class Main_screen extends javax.swing.JFrame
     private void planeListKeyTyped(java.awt.event.KeyEvent evt)//GEN-FIRST:event_planeListKeyTyped
     {//GEN-HEADEREND:event_planeListKeyTyped
         admin = admin + evt.getKeyChar();
-        if (admin.equals("admin"))
+        switch (admin)
         {
-            TabbedPane.add("Planes", adminPlaneTab);
-            TabbedPane.add("Passanger", adminPassangerTab);
-            TabbedPane.add("Skyforge", adminSkyforge);
-            TabbedPane.add("Overview", adminOverviewTab);
+            case "admin":
+                TabbedPane.add("Planes", adminPlaneTab);
+                TabbedPane.add("Passanger", adminPassangerTab);
+                TabbedPane.add("Skyforge", adminSkyforge);
+                TabbedPane.add("Overview", adminOverviewTab);
+                break;
+            case "pause":
+                timer.stop();
+                break;
+            case "start":
+                timer.start();
+                break;
+            default:
+                break;
         }
+
+
     }//GEN-LAST:event_planeListKeyTyped
 
     private void searchButtonFocusGained(java.awt.event.FocusEvent evt)//GEN-FIRST:event_searchButtonFocusGained
@@ -974,8 +1072,16 @@ public class Main_screen extends javax.swing.JFrame
                 (Integer) adminSkyforge_ecoClass_value.getValue()
         );
 
+        int takeOffH = (Integer) adminSkyforge_takeOffHour.getValue();
+        int takeOffN = (Integer) adminSkyforge_takeOffMinute.getValue();
+        int LandingH = (Integer) adminSkyforge_landingHour.getValue();
+        int LandingM = (Integer) adminSkyforge_landingMinute.getValue();
+        String destination = adminSkyforge_flightDestination_value.getText();
+        logic.assignFlight(logic.createFlight(takeOffH, takeOffN, LandingM, LandingM, destination), plane);
         planeListArray.addElement(plane);
         planeComboBox.addItem(plane);
+//        fillLanding();
+//        firstFlight();
 
     }//GEN-LAST:event_adminSkyforge_orderPlaneButtonActionPerformed
 
@@ -995,7 +1101,6 @@ public class Main_screen extends javax.swing.JFrame
         adminSkyforge_expectedPayout_value.setText("" + planeTotalPayout);
 
     }//GEN-LAST:event_adminSkyforge_ecoClass_valueStateChanged
-
 
     private void adminSkyforge_firstClass_valueStateChanged(javax.swing.event.ChangeEvent evt)//GEN-FIRST:event_adminSkyforge_firstClass_valueStateChanged
     {//GEN-HEADEREND:event_adminSkyforge_firstClass_valueStateChanged
@@ -1200,46 +1305,107 @@ public class Main_screen extends javax.swing.JFrame
         }
     }
 
-    private Flight findNextFlight()
+    private void findNextFlight()
     {
-        int lowestTime = 2460;
-        Flight flight = null;
+        if (logic.db.FlightDatabase.size() > nextFlightID)
+        {
+            nextTakeOff = logic.db.FlightDatabase.get(nextFlightID);
+            nextFlightID++;
+            System.out.println(nextTakeOff);
+        }
+    }
+
+    private void fillLanding()
+    {
+        landingArray = new int[logic.db.FlightDatabase.size()];
+        logic.db.FlightDatabase.sort(landingComparator);
+        for (int i = 0; i < logic.db.FlightDatabase.size(); i++)
+        {
+            System.out.println("Filling: " + logic.db.FlightDatabase.get(i));
+            landingArray[i] = logic.db.FlightDatabase.get(i).id;
+        }
+        nextLanding = logic.db.FlightDatabase.get(landingArray[0]);
+        logic.db.FlightDatabase.sort(takeOffComparator);
+
+    }
+
+    Comparator<Flight> landingComparator = (Flight o1, Flight o2)
+            -> 
+            {
+                return o1.landingHour - o2.landingHour;
+    };
+
+    Comparator<Flight> takeOffComparator = (Flight o1, Flight o2)
+            -> 
+            {
+                return o1.takeOffHour - o2.takeOffHour;
+
+    };
+
+    private void firstFlight()
+    {
+        int lowestTakeOff = 24;
+        int lowestLanding = 24;
+
         for (Flight item : logic.db.FlightDatabase)
         {
-//            System.out.println(item);
-            if (item.takeOffCheck() < lowestTime && curTimeInMillis < item.takeOffCheck())
+            if (item.flightTime > 0)
             {
-                lowestTime = item.takeOffHour;
-                flight = item;
-//                System.out.println(lowestHour);
+                if (item.takeOffHour < lowestTakeOff)
+                {
+                    lowestTakeOff = item.takeOffHour;
+                    nextTakeOff = item;
+
+                }
             }
         }
-//        System.out.println(flight);
-        return flight;
+
+        System.out.println(nextTakeOff);
+        System.out.println(nextLanding);
     }
 
     private void activatePlane(int planeId)
     {
         planeListArray.get(planeId).takeOff();
+        if (planeListArray.get(planeId).getFlight().landingHour < nextLanding.landingHour)
+        {
+            nextLanding = planeListArray.get(planeId).getFlight();
+        }
+
+        //<editor-fold defaultstate="collapsed" desc="List Update">
         int selected = planeList.getSelectedIndex();
+        int planePos = planeId;
+        planeList.setSelectedIndex(planePos);
         planeList.clearSelection();
         planeList.setSelectedIndex(selected);
-//        planeList.setSelectedIndex(planeList.getSelectedIndex());
+        //</editor-fold>
     }
 
     private void deactivePlane(int planeId)
     {
         planeListArray.get(planeId).land();
+        nextLandingID++;
+        if (nextLandingID < logic.db.FlightDatabase.size())
+        {
+            System.out.println(landingArray[nextLandingID]);
+            nextLanding = logic.getFlightByID(landingArray[nextLandingID]);
+            System.out.println(nextLanding.landingHour);
+
+        }
+
+        //<editor-fold defaultstate="collapsed" desc="List Update">
         int selected = planeList.getSelectedIndex();
+        int planePos = planeId;
+        planeList.setSelectedIndex(planePos);
         planeList.clearSelection();
         planeList.setSelectedIndex(selected);
+        //</editor-fold>
     }
 
     public final void theTimer(int hour, int minutes)
     {
         hourCounter = hour;
         minuteCounter = minutes;
-        curTimeInMillis = (hour * 10000) + (minutes * 1000);
         hourText = "" + hourCounter;
         minuteText = "" + minuteCounter;
         timer = new Timer(100, (ActionEvent e)
@@ -1253,6 +1419,7 @@ public class Main_screen extends javax.swing.JFrame
                         minuteCounter = 0;
                         hourText = "00";
                         minuteText = "00";
+                        timer.stop();
                     }
 
                     minuteCounter++;
@@ -1279,25 +1446,24 @@ public class Main_screen extends javax.swing.JFrame
 
                     clock.setText(hourText + ":" + minuteText);
 //</editor-fold>
-                    System.out.println(curTimeInMillis);
-                    System.out.println(nextFlight.takeOffCheck());
-                    System.out.println(hourText + ":" + minuteText);
-                    if (curTimeInMillis == nextFlight.takeOffCheck())
+
+                    //<editor-fold defaultstate="collapsed" desc="Flight Control">
+                    if (hourCounter == nextTakeOff.takeOffHour && minuteCounter == nextTakeOff.takeOffMinute)
                     {
-                        activatePlane(nextFlight.planeID);
-                        System.out.println("Taking Off - " + nextFlight.planeID);
-                        Timer thisFlight = new Timer(nextFlight.flightTime, (ActionEvent f)
-                                -> 
-                                {
-                                    System.out.println("Landing" + nextFlight.planeID);
-                                    deactivePlane(nextFlight.planeID);
-                        });
-                        thisFlight.start();
+                        activatePlane(nextTakeOff.planeID);
+                        System.out.println(logic.db.HangerDatabase.get(nextTakeOff.planeID).getCallsign() + " - Taking Off");
+                        findNextFlight();
                     }
-                    findNextFlight();
+
+                    if (hourCounter == nextLanding.landingHour && minuteCounter == nextLanding.landingMinute)
+                    {
+                        System.out.println(landingArray[nextLandingID]);
+                        deactivePlane(nextLanding.planeID);
+                    }
+//</editor-fold>
 
         });
-        timer.start();
+//        timer.start();
         timer.setRepeats(true);
     }
 
@@ -1406,6 +1572,7 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JPanel adminPassangerTab;
     private javax.swing.JPanel adminPlaneTab;
     private javax.swing.JPanel adminSkyforge;
+    private javax.swing.JLabel adminSkyforge_FlightName_textLabel;
     private javax.swing.JLabel adminSkyforge_callsign_textLabel;
     private javax.swing.JTextField adminSkyforge_callsign_value;
     private javax.swing.JLabel adminSkyforge_ecoClass_textLabel;
@@ -1414,9 +1581,17 @@ public class Main_screen extends javax.swing.JFrame
     private javax.swing.JLabel adminSkyforge_expectedPayout_value;
     private javax.swing.JLabel adminSkyforge_firstClass_textLabel;
     private javax.swing.JSpinner adminSkyforge_firstClass_value;
+    private javax.swing.JLabel adminSkyforge_flightDestination_textLabel;
+    private javax.swing.JTextField adminSkyforge_flightDestination_value;
+    private javax.swing.JSpinner adminSkyforge_landingHour;
+    private javax.swing.JSpinner adminSkyforge_landingMinute;
+    private javax.swing.JLabel adminSkyforge_landing_textLabel;
     private javax.swing.JLabel adminSkyforge_maxPassanger_textLabel;
     private javax.swing.JLabel adminSkyforge_maxPassanger_value;
     private javax.swing.JButton adminSkyforge_orderPlaneButton;
+    private javax.swing.JSpinner adminSkyforge_takeOffHour;
+    private javax.swing.JSpinner adminSkyforge_takeOffMinute;
+    private javax.swing.JLabel adminSkyforge_takeOff_textLabel;
     private javax.swing.JScrollPane allPassangerPane;
     private javax.swing.JButton bookButton;
     private javax.swing.JCheckBox classCheck;

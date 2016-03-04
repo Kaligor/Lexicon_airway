@@ -3,6 +3,9 @@ package lexicon_airway;
 
 public class Flight 
 {
+    static int nextID = 0;
+    int id;
+    
     int takeOffHour;
     int takeOffMinute;
     
@@ -22,7 +25,22 @@ public class Flight
         this.landingHour = landingHour;
         this.landingMinute = landingMinute;
         this.Destination = Destination;
+        id = nextID;
+        nextID++;
         flightTime = ((landingHour - takeOffHour) * 10000) + ((landingMinute - takeOffMinute) * 1000);
+    }
+
+    /**
+     * No Flight Constructor
+     */
+    public Flight()
+    {
+        takeOffHour = -1;
+        takeOffMinute = -1;
+        landingHour = -1;
+        landingMinute = -1;
+        Destination = "No Flight";
+        id = 9999;
     }
     
     public int takeOffCheck () {
@@ -32,8 +50,10 @@ public class Flight
     @Override
     public String toString()
     {
-        return "Flight{" + "takeOffHour=" + takeOffHour + ", takeOffMinute=" + takeOffMinute + ", landingHour=" + landingHour + ", landingMinute=" + landingMinute + ", flightTime=" + flightTime + ", Destination=" + Destination + ", planeID=" + planeID + '}';
+        return "Flight{" + "id=" + id + ", takeOffHour=" + takeOffHour + ", takeOffMinute=" + takeOffMinute + ", landingHour=" + landingHour + ", landingMinute=" + landingMinute + ", flightTime=" + flightTime + ", Destination=" + Destination + ", planeID=" + planeID + '}';
     }
+
+    
     
     
     

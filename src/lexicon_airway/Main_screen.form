@@ -33,7 +33,7 @@
                           <Group type="102" attributes="0">
                               <Component id="searchButton" min="-2" pref="215" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="planeListLockButton" pref="147" max="32767" attributes="0"/>
+                              <Component id="planeListLockButton" pref="139" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -134,7 +134,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="Welcome" pref="268" max="32767" attributes="0"/>
+                      <Component id="Welcome" pref="276" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -201,7 +201,7 @@
                                       <Component id="classCheck" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="13" max="32767" attributes="0"/>
+                              <EmptySpace pref="21" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="prisTotalLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
@@ -439,7 +439,7 @@
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="passangerInPlanePane" pref="166" max="32767" attributes="0"/>
+                      <Component id="passangerInPlanePane" pref="174" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -595,7 +595,7 @@
                               </Group>
                               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="passangerTab_id_value" pref="105" max="32767" attributes="0"/>
+                                  <Component id="passangerTab_id_value" pref="113" max="32767" attributes="0"/>
                                   <Component id="passangerTab_name_value" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -811,31 +811,56 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="adminSkyforge_expectedPayout_textLabel" max="32767" attributes="0"/>
-                                  <Component id="adminSkyforge_maxPassanger_textLabel" max="32767" attributes="0"/>
-                                  <Component id="adminSkyforge_firstClass_textLabel" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="adminSkyforge_callsign_textLabel" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="adminSkyforge_ecoClass_textLabel" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="adminSkyforge_maxPassanger_value" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="adminSkyforge_expectedPayout_value" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="adminSkyforge_ecoClass_value" min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Component id="adminSkyforge_firstClass_value" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace min="0" pref="176" max="32767" attributes="0"/>
-                                  </Group>
-                                  <Component id="adminSkyforge_callsign_value" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               <Component id="adminSkyforge_orderPlaneButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="adminSkyforge_takeOff_textLabel" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="adminSkyforge_FlightName_textLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_expectedPayout_textLabel" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_maxPassanger_textLabel" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_firstClass_textLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_callsign_textLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_ecoClass_textLabel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_flightDestination_textLabel" alignment="0" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="adminSkyforge_maxPassanger_value" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="adminSkyforge_expectedPayout_value" max="32767" attributes="0"/>
+                                          <Component id="adminSkyforge_callsign_value" alignment="0" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="adminSkyforge_ecoClass_value" min="-2" pref="37" max="-2" attributes="0"/>
+                                                  <Component id="adminSkyforge_firstClass_value" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                          </Group>
+                                          <Component id="adminSkyforge_flightDestination_value" alignment="0" pref="216" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="adminSkyforge_landing_textLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="adminSkyforge_takeOffHour" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="adminSkyforge_takeOffMinute" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="adminSkyforge_landingHour" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="adminSkyforge_landingMinute" min="-2" pref="41" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -870,7 +895,26 @@
                           <Component id="adminSkyforge_expectedPayout_textLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="adminSkyforge_expectedPayout_value" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="157" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="adminSkyforge_FlightName_textLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="adminSkyforge_flightDestination_textLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="adminSkyforge_flightDestination_value" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="adminSkyforge_takeOff_textLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="adminSkyforge_landing_textLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="adminSkyforge_takeOffHour" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="adminSkyforge_takeOffMinute" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="adminSkyforge_landingHour" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="adminSkyforge_landingMinute" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="63" max="32767" attributes="0"/>
                       <Component id="adminSkyforge_orderPlaneButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -949,6 +993,71 @@
             </Component>
             <Component class="javax.swing.JTextField" name="adminSkyforge_callsign_value">
             </Component>
+            <Component class="javax.swing.JLabel" name="adminSkyforge_FlightName_textLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Flight"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="adminSkyforge_flightDestination_textLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Destination"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="adminSkyforge_flightDestination_value">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="!!! FEATURE NOT IMPLEMENTED !!!"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="adminSkyforge_takeOff_textLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Take Off"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="adminSkyforge_landing_textLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Landing"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="adminSkyforge_takeOffHour">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" maximum="23" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="adminSkyforge_takeOffMinute">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="adminSkyforge_landingHour">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" maximum="23" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JSpinner" name="adminSkyforge_landingMinute">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" maximum="59" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="null"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="adminOverviewTab">
@@ -972,7 +1081,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="adminOverview_expectedIncome_textLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="adminOverview_expectedIncome_value" pref="179" max="32767" attributes="0"/>
+                      <Component id="adminOverview_expectedIncome_value" pref="187" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

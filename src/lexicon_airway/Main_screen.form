@@ -104,7 +104,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="planeListLockButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Lock"/>
+        <Property name="text" type="java.lang.String" value="Not Implemented"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
@@ -842,7 +842,7 @@
                                               </Group>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
-                                          <Component id="adminSkyforge_flightDestination_value" alignment="0" pref="216" max="32767" attributes="0"/>
+                                          <Component id="adminSkyforge_flightDestination_value" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="1" attributes="0">
@@ -856,7 +856,7 @@
                               <Component id="adminSkyforge_takeOffHour" min="-2" pref="41" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="adminSkyforge_takeOffMinute" min="-2" pref="41" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="85" max="32767" attributes="0"/>
                               <Component id="adminSkyforge_landingHour" min="-2" pref="41" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="adminSkyforge_landingMinute" min="-2" pref="41" max="-2" attributes="0"/>
@@ -1004,9 +1004,6 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="adminSkyforge_flightDestination_value">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="!!! FEATURE NOT IMPLEMENTED !!!"/>
-              </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="adminSkyforge_takeOff_textLabel">
               <Properties>

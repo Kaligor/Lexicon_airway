@@ -222,7 +222,7 @@ public class Main_screen extends javax.swing.JFrame
             }
         });
 
-        planeListLockButton.setText("Lock");
+        planeListLockButton.setText("Not Implemented");
         planeListLockButton.setEnabled(false);
 
         TabbedPane.addChangeListener(new javax.swing.event.ChangeListener()
@@ -667,8 +667,6 @@ public class Main_screen extends javax.swing.JFrame
 
         adminSkyforge_flightDestination_textLabel.setText("Destination");
 
-        adminSkyforge_flightDestination_value.setText("!!! FEATURE NOT IMPLEMENTED !!!");
-
         adminSkyforge_takeOff_textLabel.setText("Take Off");
 
         adminSkyforge_landing_textLabel.setText("Landing");
@@ -718,7 +716,7 @@ public class Main_screen extends javax.swing.JFrame
                                             .addComponent(adminSkyforge_ecoClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(adminSkyforge_firstClass_value, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(adminSkyforge_flightDestination_value, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)))
+                                    .addComponent(adminSkyforge_flightDestination_value)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, adminSkyforgeLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(adminSkyforge_landing_textLabel)
@@ -727,7 +725,7 @@ public class Main_screen extends javax.swing.JFrame
                         .addComponent(adminSkyforge_takeOffHour, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(adminSkyforge_takeOffMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                         .addComponent(adminSkyforge_landingHour, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(adminSkyforge_landingMinute, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1077,11 +1075,11 @@ public class Main_screen extends javax.swing.JFrame
         int LandingH = (Integer) adminSkyforge_landingHour.getValue();
         int LandingM = (Integer) adminSkyforge_landingMinute.getValue();
         String destination = adminSkyforge_flightDestination_value.getText();
-        logic.assignFlight(logic.createFlight(takeOffH, takeOffN, LandingM, LandingM, destination), plane);
+        logic.assignFlight(logic.createFlight(takeOffH, takeOffN, LandingH, LandingM, destination), plane);
         planeListArray.addElement(plane);
         planeComboBox.addItem(plane);
-//        fillLanding();
-//        firstFlight();
+        fillLanding();
+        firstFlight();
 
     }//GEN-LAST:event_adminSkyforge_orderPlaneButtonActionPerformed
 
